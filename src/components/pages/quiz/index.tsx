@@ -8,11 +8,16 @@ import { getRightAnswerQuote, getWrongAnswerQuote } from "src/utils/text";
 const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [questions, setQuestions] = useState<TriviaQuestion[]>([]);
+  const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
+    new Date().getTime()
+  );
   const [stats, setStats] = useState<Stats>({
     correctAnswerCount: 0,
     questionsCount: 0,
     wrongAnswerCount: 0,
   });
+
+  const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [highlightCorrectAnswer, setHighlightCorrectAnswer] = useState<boolean>(
     false
@@ -35,6 +40,16 @@ const QuizPage = () => {
       duration: 1000,
       position: "top-center",
     });
+    // This part is for Kahoot scoring
+    const questionTime = 10;
+    const responseTime =
+      new Date().getTime() / 1000 - lastQuestionAnsweredTime / 1000;
+    const maxPoints = 1000;
+
+    const mPoints = Math.floor(
+      (1 - (responseTime * 0.5) / questionTime) * maxPoints
+    );
+    setPoints(mPoints + points);
   };
 
   const handleWrongAnswer = (question: TriviaQuestion, answer: string) => {
@@ -56,6 +71,7 @@ const QuizPage = () => {
     else handleWrongAnswer(question, answer);
 
     setTimeout(() => {
+      setLastQuestionAnsweredTime(new Date().getTime());
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setHighlightCorrectAnswer(false);
     }, 600);
@@ -83,6 +99,7 @@ const QuizPage = () => {
       onTimeComplete={onTimeComplete}
       stats={stats}
       isFinished={isFinished}
+      points={points}
     />
   );
 };

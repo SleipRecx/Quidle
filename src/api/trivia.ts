@@ -20,7 +20,10 @@ class TriviaAPI {
       return okAsync(questions);
     } catch (error) {
       return errAsync(
-        new Error("Something went wrong with fetching giftItems")
+        new Error(
+          "Something went wrong with fetching questions: " +
+            JSON.stringify(error)
+        )
       );
     }
   }

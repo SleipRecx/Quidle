@@ -8,4 +8,5 @@ export type QuizTemplateProps = {
   onTimeComplete: () => void;
   isFinished: boolean;
   stats: Stats;
+  points: number;
 };
