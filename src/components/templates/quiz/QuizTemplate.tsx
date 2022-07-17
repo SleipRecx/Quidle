@@ -1,7 +1,7 @@
 import React from "react";
 import { Column } from "src/components/atoms/layout";
-import { H1, H4 } from "src/components/atoms/typography";
-import QuestionCard from "src/components/organisms/QuestionCard";
+import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
+import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
 import CountDown from "../../molecules/Countdown/CountDown";
 import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
@@ -42,15 +42,7 @@ const QuizTemplate = ({
           }}
         ></div>
         <CountDown onComplete={onTimeComplete} />
-        {isFinished && (
-          <div>
-            <H1>Good job!</H1>
-            <div>Total number of questions: {stats.questionsCount}</div>
-            <div>Correct answers: {stats.correctAnswerCount}</div>
-            <div>Wrong answers: {stats.wrongAnswerCount}</div>
-            <H4>You are the 2nd best today!</H4>
-          </div>
-        )}
+        {isFinished && <CompletedGameCard stats={stats} />}
       </Wrapper>
     </Column>
   );
