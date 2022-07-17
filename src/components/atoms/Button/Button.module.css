@@ -1,0 +1,33 @@
+.Button {
+  font-size: 16px;
+  color: white;
+  min-height: 2.375rem;
+  max-height: 48px;
+  background-color: #ee7965;
+  width: 100%;
+  margin: 0px;
+  border: 0px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: bottom;
+  box-shadow: rgb(0 0 0 / 25%) 0px -4px inset;
+  background: #ee7965;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  color: #1e1e1e;
+  font-weight: bold;
+  font-size: 0.975rem;
+  text-align: center;
+  text-decoration: none;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0px 16px 4px;
+}
+
+.Button:hover {
+  cursor: pointer;
+}
+
+.Button:active {
+  background-color: #6aaa6490;
+}
