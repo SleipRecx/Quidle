@@ -36,10 +36,11 @@ const QuizPage = () => {
       correctAnswerCount: stats.correctAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
     });
+    /*
     toast(getRightAnswerQuote(), {
       duration: 1000,
       position: "top-center",
-    });
+    });*/
     // This part is for Kahoot scoring
     const questionTime = 10;
     const responseTime =
@@ -58,10 +59,10 @@ const QuizPage = () => {
       wrongAnswerCount: stats.wrongAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
     });
-    toast(getWrongAnswerQuote(), {
+    /*toast(getWrongAnswerQuote(), {
       duration: 1000,
       position: "top-center",
-    });
+    });*/
   };
 
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
