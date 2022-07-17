@@ -1,31 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AnswerCard from "src/components/molecules/AnswerCard/AnswerCard";
 import { QuestionCardProps } from "./types";
 
-const QuestionCard = ({
-  question,
-  onPressAnswer,
-  highlightCorrectAnswer,
-}: QuestionCardProps) => {
-  // TODO: Når man har riktig, wohoo, du fikk riktig; noe emojis / poeng som øker
-  // TODO: lite tid igjen / tiden er ute, noe klokke som kommer opp
-  // TODO: vise poengscore, you are in ...
-  // TODO: alltid noe positivt
+const QuestionCard = ({ question, onPressAnswer }: QuestionCardProps) => {
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const onPress = (answer: string) => {
+    setSelectedAnswer(answer);
+    onPressAnswer(question, answer);
+  };
+
+  useEffect(() => {
+    setSelectedAnswer(null);
+  }, [question]);
 
   return (
     <div>
       <h2>{question.question}</h2>
       <div>
-        {question.allAnswers.map((answer, index) => (
-          <AnswerCard
-            key={index}
-            answer={answer}
-            onPress={() => onPressAnswer(question, answer)}
-            highlightCorrectAnswer={
-              highlightCorrectAnswer && answer === question.correctAnswer
-            }
-          />
-        ))}
+        {question.allAnswers.map((answer) => {
+          return (
+            <AnswerCard
+              key={answer}
+              answer={answer}
+              onPress={() => onPress(answer)}
+              isCorrect={!!selectedAnswer && answer === question.correctAnswer}
+              isWrong={!!selectedAnswer && selectedAnswer === answer}
+            />
+          );
+        })}
       </div>
     </div>
   );

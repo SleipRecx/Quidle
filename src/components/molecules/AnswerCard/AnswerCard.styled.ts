@@ -1,6 +1,7 @@
 import styled from "styled-components";
 export const StyledAnswerCard = styled.div<{
-  highlighted: boolean;
+  isCorrect: boolean;
+  isWrong: boolean;
 }>`
   border: 1px solid #3a3a3c;
   padding: 8px;
@@ -12,5 +13,6 @@ export const StyledAnswerCard = styled.div<{
   &:active {
     cursor: pointer;
   }
-  background-color: ${(p) => (p.highlighted ? "green" : "")};
+  border-color: ${(p) =>
+    p.isCorrect ? "green" : p.isWrong ? "red" : "#3a3a3c"};
 `;

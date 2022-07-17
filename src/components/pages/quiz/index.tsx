@@ -36,11 +36,7 @@ const QuizPage = () => {
       correctAnswerCount: stats.correctAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
     });
-    /*
-    toast(getRightAnswerQuote(), {
-      duration: 1000,
-      position: "top-center",
-    });*/
+
     // This part is for Kahoot scoring
     const questionTime = 10;
     const responseTime =
@@ -50,6 +46,10 @@ const QuizPage = () => {
     const mPoints = Math.floor(
       (1 - (responseTime * 0.5) / questionTime) * maxPoints
     );
+    toast.success(`+${mPoints}`, {
+      duration: 1000,
+      position: "top-center",
+    });
     setPoints(mPoints + points);
   };
 

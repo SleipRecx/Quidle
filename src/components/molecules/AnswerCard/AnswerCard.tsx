@@ -4,10 +4,11 @@ import { StyledAnswerCard } from "./AnswerCard.styled";
 const AnswerCard = ({
   answer,
   onPress,
-  highlightCorrectAnswer,
+  isCorrect,
+  isWrong,
 }: AnswerCardProps) => {
   return (
-    <StyledAnswerCard onClick={onPress} highlighted={highlightCorrectAnswer}>
+    <StyledAnswerCard onClick={onPress} isCorrect={isCorrect} isWrong={isWrong}>
       {answer}
     </StyledAnswerCard>
   );
