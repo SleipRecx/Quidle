@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
 import Lottie from "react-lottie";
 import Modal from "react-modal";
-import Button from "src/components/atoms/Button/Button";
-import Container from "src/components/atoms/Container/Container";
-import Input from "src/components/atoms/Input/Input";
+import Button from "src/components/atoms/buttons/Button";
+import Input from "src/components/atoms/inputs/Input";
+import { Column } from "src/components/atoms/layout";
 import * as animationData from "../../../public/static/animations/success.json";
 
 const ComponentsPage = () => {
@@ -23,7 +23,7 @@ const ComponentsPage = () => {
     setIsOpen(false);
   }
   return (
-    <Container center>
+    <Column center>
       <div
         style={{
           maxWidth: 500,
@@ -104,7 +104,7 @@ const ComponentsPage = () => {
           }}
         ></div>
       </div>
-    </Container>
+    </Column>
   );
 };
 

@@ -1,4 +1,4 @@
-export const shuffle = (array: any[]): any[] => {
+export function shuffle<T>(array: T[]): T[] {
   let currentIndex = array.length,
     randomIndex;
 
@@ -16,4 +16,8 @@ export const shuffle = (array: any[]): any[] => {
   }
 
   return array;
-};
+}
+
+export function getRandomElementInArray<T>(array: T[]): T {
+  return array[Math.floor(Math.random() * array.length)];
+}
