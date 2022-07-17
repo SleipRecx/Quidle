@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import TriviaAPI from "src/api/trivia";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
 import { Stats, TriviaQuestion } from "src/models/client/questions";
-import { getRightAnswerQuote, getWrongAnswerQuote } from "src/utils/text";
 
 const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
@@ -19,9 +18,7 @@ const QuizPage = () => {
 
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [highlightCorrectAnswer, setHighlightCorrectAnswer] = useState<boolean>(
-    false
-  );
+
   const handleQuestions = (mQuestions: TriviaQuestion[]) => {
     setQuestions(mQuestions);
   };
@@ -66,7 +63,6 @@ const QuizPage = () => {
   };
 
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
-    setHighlightCorrectAnswer(true);
     if (question.correctAnswer === answer)
       handleCorrectAnswer(question, answer);
     else handleWrongAnswer(question, answer);
@@ -74,7 +70,6 @@ const QuizPage = () => {
     setTimeout(() => {
       setLastQuestionAnsweredTime(new Date().getTime());
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setHighlightCorrectAnswer(false);
     }, 600);
   };
 
@@ -96,7 +91,6 @@ const QuizPage = () => {
       questions={questions}
       onPressAnswer={onPressAnswer}
       questionIndex={currentQuestionIndex}
-      highlightCorrectAnswer={highlightCorrectAnswer}
       onTimeComplete={onTimeComplete}
       stats={stats}
       isFinished={isFinished}

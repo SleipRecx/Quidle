@@ -11,7 +11,6 @@ const QuizTemplate = ({
   questions,
   onPressAnswer,
   questionIndex,
-  highlightCorrectAnswer,
   onTimeComplete,
   isFinished,
   stats,
@@ -31,7 +30,6 @@ const QuizTemplate = ({
           <QuestionCard
             question={questions[questionIndex]}
             onPressAnswer={onPressAnswer}
-            highlightCorrectAnswer={highlightCorrectAnswer}
           />
         )}
         <div
