@@ -14,3 +14,11 @@ Poengssystem
 # Questions in Kahoot
 
 https://support.kahoot.com/hc/en-us/articles/115002303908-How-to-toggle-points
+
+# Next steps
+
+1. Gjøre at daglig quiz; alle har samme spørsmål
+2. Lagre til highscore slik at man kan spille mot hverandre
+3. Google analytics
+4. Header med settings etc.
+5. Lage egne quizzer
