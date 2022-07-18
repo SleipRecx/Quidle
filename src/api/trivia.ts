@@ -6,9 +6,7 @@ import { shuffle } from "src/utils";
 class TriviaAPI {
   static async getTriviaQuestions(): Promise<Result<TriviaQuestion[], Error>> {
     try {
-      const response = await fetch(
-        `${TRIVIA_API_URL}?limit=50&difficulty=easy`
-      );
+      const response = await fetch(`${TRIVIA_API_URL}?limit=50`);
       const responseJson = (await response.json()) as Partial<TriviaQuestion>[];
       const questions = responseJson.map((q) => ({
         ...q,
