@@ -8,6 +8,7 @@ import { getFunnyEmoji, getWrongAnswerQuote } from "src/utils/text";
 
 const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const [questions, setQuestions] = useState<TriviaQuestion[]>([]);
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
     new Date().getTime()
@@ -93,6 +94,10 @@ const QuizPage = () => {
     ? questions[currentQuestionIndex]
     : undefined;
 
+  const onPressPlay = () => {
+    setIsStarted(true);
+  };
+
   // TODO: Make question on top
   // TODO: Make full width of answers (up to 500px)
   // TODO: Have logo on top?
@@ -102,8 +107,10 @@ const QuizPage = () => {
       question={question}
       onPressAnswer={onPressAnswer}
       onTimeComplete={onTimeComplete}
+      onPressPlay={onPressPlay}
       stats={stats}
       isFinished={isFinished}
+      isStarted={isStarted}
       points={points}
     />
   );

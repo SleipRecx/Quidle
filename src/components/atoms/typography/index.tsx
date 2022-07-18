@@ -52,3 +52,8 @@ const H4Base = styled(TextBase)`
   font-size: 18px;
 `;
 export const H4 = (props: TextBaseProps) => <H4Base {...props} as="h4" />;
+
+const PBase = styled(TextBase)`
+  font-size: 14px;
+`;
+export const P = (props: TextBaseProps) => <PBase {...props} as="h4" />;
