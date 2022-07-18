@@ -1,9 +1,10 @@
 import React from "react";
 import { Column, Float } from "src/components/atoms/layout";
 import { H1, H2, H4 } from "src/components/atoms/typography";
+import CountUp from "src/components/molecules/CountUp/CountUp";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
 import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
-import CountDown from "../../molecules/Countdown/CountDown";
+import CountDown from "../../molecules/CountDown/CountDown";
 import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
 
@@ -33,14 +34,18 @@ const QuizTemplate = ({
       )}
       <Wrapper>
         {!isFinished && question && (
-          <QuestionCard question={question} onPressAnswer={onPressAnswer} />
+          <Column center>
+            <QuestionCard question={question} onPressAnswer={onPressAnswer} />
+          </Column>
         )}
 
         {isFinished && <CompletedGameCard stats={stats} />}
       </Wrapper>
       <Column center flex={1}>
         <CountDown onComplete={onTimeComplete} />
-        <H4>{points} points</H4>
+        <H4>
+          <CountUp end={points} /> points
+        </H4>
       </Column>
     </Column>
   );

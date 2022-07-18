@@ -87,7 +87,7 @@ const QuizPage = () => {
     getQuestions();
   }, [getQuestions]);
 
-  const isDevEnv = true;
+  const isDevEnv = process.env.NEXT_PUBLIC_ENVIRONMENT === "development";
 
   const question = isDevEnv
     ? DUMMY_QUESTION
