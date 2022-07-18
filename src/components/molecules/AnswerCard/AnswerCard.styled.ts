@@ -5,16 +5,19 @@ export const StyledAnswerCard = styled.div<{
 }>`
   box-sizing: border-box;
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   margin-bottom: 8px;
   &:hover {
-    background-color: black;
     cursor: pointer;
   }
   &:active {
     cursor: pointer;
   }
 
-  background: ${(p) =>
-    p.isCorrect ? "#00ff00" : p.isWrong ? "#ff0033" : "#3a3a3c"};
+  border: ${(p) =>
+    p.isCorrect
+      ? "3px solid #00ff00"
+      : p.isWrong
+      ? "3px solid #ff0033"
+      : "3px solid #3a3a3c"};
 `;
