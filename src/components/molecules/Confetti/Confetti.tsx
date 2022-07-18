@@ -25,7 +25,7 @@ function getAnimationSettings(originXA: number, originXB: number) {
   };
 }
 
-const CONFETTI_TIME_MILLI_SECONDS = 1200;
+const CONFETTI_TIME_MILLI_SECONDS = 600;
 
 const Confetti = () => {
   // Set to true if you want to start, pause and stop fireworks with buttons
