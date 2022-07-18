@@ -9,4 +9,5 @@ export type QuizTemplateProps = {
   stats: Stats;
   points: number;
   onPressPlay: () => void;
+  onPressPractice: () => void;
 };

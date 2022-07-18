@@ -1,6 +1,6 @@
 import React from "react";
-import { Column } from "src/components/atoms/layout";
-import { H1, H4 } from "src/components/atoms/typography";
+import { Column, Float } from "src/components/atoms/layout";
+import { H1, H4, P, TextBase } from "src/components/atoms/typography";
 import CountDown from "src/components/molecules/CountDown/CountDown";
 import CountUp from "src/components/molecules/CountUp/CountUp";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
@@ -19,6 +19,7 @@ const QuizTemplate = ({
   isFinished,
   stats,
   points,
+  onPressPractice,
 }: QuizTemplateProps) => {
   return (
     <Column
@@ -31,6 +32,12 @@ const QuizTemplate = ({
     >
       {!isStarted && !isFinished && (
         <Column width="100vw" height="100vh" center>
+          <Float bottom={"5px"}>
+            <TextBase fontSize={10} onClick={onPressPractice}>
+              I just want to practice my quiz skills
+            </TextBase>
+          </Float>
+
           <Column>
             <HowToPlayCard onPressPlay={onPressPlay} />
           </Column>

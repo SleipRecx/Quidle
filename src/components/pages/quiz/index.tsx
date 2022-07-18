@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import TriviaAPI from "src/api/trivia";
@@ -13,6 +14,7 @@ const QuizPage = () => {
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
     new Date().getTime()
   );
+
   const [stats, setStats] = useState<Stats>({
     correctAnswerCount: 0,
     questionsCount: 0,
@@ -21,6 +23,8 @@ const QuizPage = () => {
 
   const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+
+  const router = useRouter();
 
   const handleQuestions = (mQuestions: TriviaQuestion[]) => {
     setQuestions(mQuestions);
@@ -100,6 +104,10 @@ const QuizPage = () => {
     setIsStarted(true);
   };
 
+  const onPressPractice = () => {
+    router.push("/practice");
+  };
+
   return (
     <QuizTemplate
       question={question}
@@ -110,6 +118,7 @@ const QuizPage = () => {
       isFinished={isFinished}
       isStarted={isStarted}
       points={points}
+      onPressPractice={onPressPractice}
     />
   );
 };
