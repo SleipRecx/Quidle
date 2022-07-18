@@ -46,11 +46,13 @@ const QuizPage = () => {
     const mPoints = Math.floor(
       (1 - (responseTime * 0.5) / questionTime) * maxPoints
     );
+    /*
     toast(`+${mPoints}`, {
       duration: 1000,
       position: "bottom-center",
       icon: getFunnyEmoji(),
     });
+    */
     setPoints(mPoints + points);
   };
 
@@ -74,7 +76,7 @@ const QuizPage = () => {
   };
 
   const onTimeComplete = useCallback(() => {
-    // setIsFinished(true);
+    setIsFinished(true);
   }, []);
 
   const getQuestions = useCallback(async () => {

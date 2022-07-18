@@ -14,10 +14,7 @@ export const StyledAnswerCard = styled.div<{
   &:active {
     cursor: pointer;
   }
-  border: ${(p) =>
-    p.isCorrect
-      ? "3px solid #00ff00"
-      : p.isWrong
-      ? "2px solid #ff0033"
-      : "1px solid #3a3a3c"};
+
+  background: ${(p) =>
+    p.isCorrect ? "#00ff00" : p.isWrong ? "#ff0033" : "#3a3a3c"};
 `;

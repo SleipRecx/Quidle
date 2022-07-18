@@ -5,6 +5,7 @@ import CountUp from "src/components/molecules/CountUp/CountUp";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
 import HowToPlayCard from "src/components/organisms/HowToPlayCard/HowToPlayCard";
 import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
+import { getFunnyEmoji } from "src/utils/text";
 import CountDown from "../../molecules/CountDown/CountDown";
 import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
@@ -28,7 +29,7 @@ const QuizTemplate = ({
       justifyContent="space-between"
       color="white"
     >
-      {!isStarted && (
+      {!isStarted && !isFinished && (
         <Wrapper>
           <HowToPlayCard onPressPlay={onPressPlay} />
         </Wrapper>
@@ -43,18 +44,22 @@ const QuizTemplate = ({
       )}
       <Wrapper>
         {!isFinished && question && isStarted && (
-          <Column center>
+          <Column center fullWidth>
             <QuestionCard question={question} onPressAnswer={onPressAnswer} />
           </Column>
         )}
 
-        {isFinished && <CompletedGameCard stats={stats} />}
+        {isFinished && (
+          <Column width="100vw" height="100vh" center>
+            <CompletedGameCard stats={stats} points={points} />
+          </Column>
+        )}
       </Wrapper>
-      {isStarted && (
+      {isStarted && !isFinished && (
         <Column center flex={1}>
           <CountDown onComplete={onTimeComplete} />
           <H4>
-            <CountUp end={points} /> points
+            <CountUp end={points} /> points {points > 0 && getFunnyEmoji()}
           </H4>
         </Column>
       )}
