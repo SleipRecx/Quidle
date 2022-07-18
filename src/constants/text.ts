@@ -11,3 +11,5 @@ export const YOU_CAN_DO_BETTER_QUOTES = [
   "Close 🙁",
   "Next time 🫡",
 ];
+
+export const FUNNY_EMOJIS = ["🥳", "🎉", "🌟", "🔥", "🙏", "🙌", "👏", "🫶"];

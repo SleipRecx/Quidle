@@ -4,6 +4,7 @@ import TriviaAPI from "src/api/trivia";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
 import { DUMMY_QUESTION } from "src/models/client/questions/constants";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
+import { getFunnyEmoji, getWrongAnswerQuote } from "src/utils/text";
 
 const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
@@ -44,9 +45,10 @@ const QuizPage = () => {
     const mPoints = Math.floor(
       (1 - (responseTime * 0.5) / questionTime) * maxPoints
     );
-    toast.success(`+${mPoints}`, {
+    toast(`+${mPoints}`, {
       duration: 1000,
-      position: "top-center",
+      position: "bottom-center",
+      icon: getFunnyEmoji(),
     });
     setPoints(mPoints + points);
   };
@@ -57,10 +59,6 @@ const QuizPage = () => {
       wrongAnswerCount: stats.wrongAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
     });
-    /*toast(getWrongAnswerQuote(), {
-      duration: 1000,
-      position: "top-center",
-    });*/
   };
 
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
