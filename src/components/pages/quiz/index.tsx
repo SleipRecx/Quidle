@@ -100,10 +100,6 @@ const QuizPage = () => {
     setIsStarted(true);
   };
 
-  // TODO: Make question on top
-  // TODO: Make full width of answers (up to 500px)
-  // TODO: Have logo on top?
-  // TODO: maxwidth 500
   return (
     <QuizTemplate
       question={question}
