@@ -2,26 +2,13 @@ import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
 import Lottie from "react-lottie";
-import Modal from "react-modal";
 import Button from "src/components/atoms/buttons/Button";
 import Input from "src/components/atoms/inputs/Input";
 import { Column } from "src/components/atoms/layout";
+import Modal from "src/components/atoms/modals/Modal";
 import * as animationData from "../../../public/static/animations/success.json";
 
 const ComponentsPage = () => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
   return (
     <Column center>
       <div
@@ -88,16 +75,7 @@ const ComponentsPage = () => {
           />
         </div>
         <h2>Modal</h2>
-        <Button onClick={openModal}>Show modal</Button>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <div>This is a modal. Click outside the modal to close it</div>
-        </Modal>
+        <Modal />
         <div
           style={{
             height: 100,

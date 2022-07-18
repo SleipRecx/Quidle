@@ -3,6 +3,7 @@ export const StyledAnswerCard = styled.div<{
   isCorrect: boolean;
   isWrong: boolean;
 }>`
+  width: 100%;
   border: 1px solid #3a3a3c;
   padding: 8px;
   margin-bottom: 8px;

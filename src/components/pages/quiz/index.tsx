@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import TriviaAPI from "src/api/trivia";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
-import { Stats, TriviaQuestion } from "src/models/client/questions";
+import { DUMMY_QUESTION } from "src/models/client/questions/constants";
+import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 
 const QuizPage = () => {
   const [isFinished, setIsFinished] = useState(false);
@@ -74,7 +75,7 @@ const QuizPage = () => {
   };
 
   const onTimeComplete = useCallback(() => {
-    setIsFinished(true);
+    // setIsFinished(true);
   }, []);
 
   const getQuestions = useCallback(async () => {
@@ -86,11 +87,22 @@ const QuizPage = () => {
     getQuestions();
   }, [getQuestions]);
 
+  const isDevEnv = true;
+
+  const question = isDevEnv
+    ? DUMMY_QUESTION
+    : currentQuestionIndex < questions.length
+    ? questions[currentQuestionIndex]
+    : undefined;
+
+  // TODO: Make question on top
+  // TODO: Make full width of answers (up to 500px)
+  // TODO: Have logo on top?
+  // TODO: maxwidth 500
   return (
     <QuizTemplate
-      questions={questions}
+      question={question}
       onPressAnswer={onPressAnswer}
-      questionIndex={currentQuestionIndex}
       onTimeComplete={onTimeComplete}
       stats={stats}
       isFinished={isFinished}

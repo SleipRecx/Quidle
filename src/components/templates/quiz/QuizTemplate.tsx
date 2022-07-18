@@ -1,6 +1,6 @@
 import React from "react";
 import { Column, Float } from "src/components/atoms/layout";
-import { H4 } from "src/components/atoms/typography";
+import { H1, H2, H4 } from "src/components/atoms/typography";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
 import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
 import CountDown from "../../molecules/Countdown/CountDown";
@@ -8,9 +8,8 @@ import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
 
 const QuizTemplate = ({
-  questions,
+  question,
   onPressAnswer,
-  questionIndex,
   onTimeComplete,
   isFinished,
   stats,
@@ -22,30 +21,27 @@ const QuizTemplate = ({
       backgroundColor={"#131315"}
       height={"100vh"}
       alignItems="center"
-      justifyContent="center"
+      justifyContent="space-between"
       color="white"
     >
+      {!isFinished && question && (
+        <Wrapper>
+          <Column center px={"5vw"}>
+            <H1 textAlign="center">{question.question}</H1>
+          </Column>
+        </Wrapper>
+      )}
       <Wrapper>
-        {!isFinished && questionIndex < questions.length && (
-          <QuestionCard
-            question={questions[questionIndex]}
-            onPressAnswer={onPressAnswer}
-          />
+        {!isFinished && question && (
+          <QuestionCard question={question} onPressAnswer={onPressAnswer} />
         )}
-        <div
-          style={{
-            height: 30,
-          }}
-        ></div>
 
         {isFinished && <CompletedGameCard stats={stats} />}
       </Wrapper>
-      <Float bottom={"5vh"}>
-        <Column center>
-          <CountDown onComplete={onTimeComplete} />
-          <H4>{points} points</H4>
-        </Column>
-      </Float>
+      <Column center flex={1}>
+        <CountDown onComplete={onTimeComplete} />
+        <H4>{points} points</H4>
+      </Column>
     </Column>
   );
 };

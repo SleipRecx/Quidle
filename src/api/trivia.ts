@@ -1,6 +1,6 @@
 import { errAsync, okAsync, Result } from "neverthrow";
 import { TRIVIA_API_URL } from "src/constants/api";
-import { TriviaQuestion } from "src/models/client/questions";
+import { TriviaQuestion } from "src/models/client/questions/types";
 import { shuffle } from "src/utils";
 
 class TriviaAPI {

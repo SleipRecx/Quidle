@@ -1,9 +1,8 @@
-import { Stats, TriviaQuestion } from "src/models/client/questions";
+import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 
 export type QuizTemplateProps = {
-  questions: TriviaQuestion[];
+  question?: TriviaQuestion;
   onPressAnswer: (question: TriviaQuestion, answer: string) => void;
-  questionIndex: number;
   onTimeComplete: () => void;
   isFinished: boolean;
   stats: Stats;

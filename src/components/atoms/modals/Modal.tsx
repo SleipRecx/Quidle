@@ -1,6 +1,6 @@
 import React from "react";
-import Modal from "react-modal";
-Modal.setAppElement("body");
+import ReactModal from "react-modal";
+ReactModal.setAppElement("body");
 
 const customStyles = {
   content: {
@@ -14,7 +14,30 @@ const customStyles = {
 };
 
 const Modal = () => {
-  return <div></div>;
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const afterOpenModal = () => {
+    // references are now sync'd and can be accessed.
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  return (
+    <ReactModal
+      isOpen={modalIsOpen}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Example Modal"
+    >
+      <div>This is a modal. Click outside the modal to close it</div>
+    </ReactModal>
+  );
 };
 
 export default Modal;
