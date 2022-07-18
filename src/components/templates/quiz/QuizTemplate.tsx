@@ -30,9 +30,11 @@ const QuizTemplate = ({
       color="white"
     >
       {!isStarted && !isFinished && (
-        <Wrapper>
-          <HowToPlayCard onPressPlay={onPressPlay} />
-        </Wrapper>
+        <Column width="100vw" height="100vh" center>
+          <Column>
+            <HowToPlayCard onPressPlay={onPressPlay} />
+          </Column>
+        </Column>
       )}
 
       {!isFinished && question && isStarted && (

@@ -33,12 +33,15 @@ export const TextBase = styled.div<TextBaseProps>`
 
 const H1Base = styled(TextBase)`
   font-size: 26px;
+  @media screen and (max-width: 1000px) {
+    font-size: 22px;
+  }
 `;
 
 export const H1 = (props: TextBaseProps) => <H1Base {...props} as="h1" />;
 
 const H2Base = styled(TextBase)`
-  font-size: 20px;
+  font-size: 22px;
 `;
 
 export const H2 = (props: TextBaseProps) => <H2Base {...props} as="h2" />;

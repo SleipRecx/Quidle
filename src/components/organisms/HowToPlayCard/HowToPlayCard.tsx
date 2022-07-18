@@ -6,7 +6,7 @@ import { APP_NAME } from "src/constants/app";
 import { HowToPlayCardProps } from "./types";
 const HowToPlayCard = ({ onPressPlay }: HowToPlayCardProps) => {
   return (
-    <Column fullWidth mt={"10vh"} maxWidth="500px" px="5vw">
+    <Column fullWidth maxWidth="500px" px="5vw">
       <Column center mb="5vh">
         <H4 textAlign="center" color="#898989">
           HOW TO PLAY
