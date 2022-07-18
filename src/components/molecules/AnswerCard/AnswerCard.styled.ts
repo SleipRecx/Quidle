@@ -3,8 +3,8 @@ export const StyledAnswerCard = styled.div<{
   isCorrect: boolean;
   isWrong: boolean;
 }>`
+  box-sizing: border-box;
   width: 100%;
-  border: 1px solid #3a3a3c;
   padding: 8px;
   margin-bottom: 8px;
   &:hover {
@@ -14,6 +14,10 @@ export const StyledAnswerCard = styled.div<{
   &:active {
     cursor: pointer;
   }
-  border-color: ${(p) =>
-    p.isCorrect ? "green" : p.isWrong ? "red" : "#3a3a3c"};
+  border: ${(p) =>
+    p.isCorrect
+      ? "3px solid #00ff00"
+      : p.isWrong
+      ? "2px solid #ff0033"
+      : "1px solid #3a3a3c"};
 `;
