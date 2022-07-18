@@ -1,7 +1,7 @@
 import React from "react";
 import { Column } from "src/components/atoms/layout";
 import { H1, H4 } from "src/components/atoms/typography";
-import CountDown from "src/components/molecules/test/CountDown";
+import CountDown from "src/components/molecules/CountDown/CountDown";
 import CountUp from "src/components/molecules/CountUp/CountUp";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
 import HowToPlayCard from "src/components/organisms/HowToPlayCard/HowToPlayCard";
