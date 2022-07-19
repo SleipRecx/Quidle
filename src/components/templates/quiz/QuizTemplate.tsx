@@ -19,7 +19,8 @@ const QuizTemplate = ({
   isFinished,
   stats,
   points,
-  onPressPractice,
+  onPressPracticeTrivia,
+  onPressPracticeMath,
 }: QuizTemplateProps) => {
   return (
     <Column
@@ -33,8 +34,26 @@ const QuizTemplate = ({
       {!isStarted && !isFinished && (
         <Column width="100vw" height="100vh" center>
           <Float bottom={"5px"}>
-            <TextBase fontSize={10} onClick={onPressPractice}>
-              I just want to practice my quiz skills
+            <TextBase fontSize={10}>
+              I just want to practice my{" "}
+              <span
+                onClick={onPressPracticeTrivia}
+                style={{
+                  textDecoration: "underline",
+                }}
+              >
+                trivia
+              </span>{" "}
+              /{" "}
+              <span
+                onClick={onPressPracticeMath}
+                style={{
+                  textDecoration: "underline",
+                }}
+              >
+                math
+              </span>{" "}
+              skills
             </TextBase>
           </Float>
 

@@ -104,8 +104,12 @@ const QuizPage = () => {
     setIsStarted(true);
   };
 
-  const onPressPractice = () => {
+  const onPressPracticeTrivia = () => {
     router.push("/practice");
+  };
+
+  const onPressPracticeMath = () => {
+    router.push("/practice/math");
   };
 
   return (
@@ -118,7 +122,8 @@ const QuizPage = () => {
       isFinished={isFinished}
       isStarted={isStarted}
       points={points}
-      onPressPractice={onPressPractice}
+      onPressPracticeTrivia={onPressPracticeTrivia}
+      onPressPracticeMath={onPressPracticeMath}
     />
   );
 };
