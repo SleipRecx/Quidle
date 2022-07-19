@@ -5,9 +5,8 @@ import TriviaAPI from "src/api/trivia";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
 import { DUMMY_QUESTION } from "src/models/client/questions/constants";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
-import { getFunnyEmoji, getWrongAnswerQuote } from "src/utils/text";
 
-const QuizPage = () => {
+const HomePage = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [questions, setQuestions] = useState<TriviaQuestion[]>([]);
@@ -50,13 +49,7 @@ const QuizPage = () => {
     const mPoints = Math.floor(
       (1 - (responseTime * 0.5) / questionTime) * maxPoints
     );
-    /*
-    toast(`+${mPoints}`, {
-      duration: 1000,
-      position: "bottom-center",
-      icon: getFunnyEmoji(),
-    });
-    */
+
     setPoints(mPoints + points);
   };
 
@@ -128,4 +121,4 @@ const QuizPage = () => {
   );
 };
 
-export default QuizPage;
+export default HomePage;

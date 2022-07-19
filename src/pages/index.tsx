@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import React from "react";
-import QuizPage from "src/components/pages/quiz";
+import HomePage from "src/components/pages/home";
 
-// Note: pre-render functions such as getStaticProps can be used here
 const Home: NextPage = () => {
-  return <QuizPage />;
+  return <HomePage />;
 };
 
 export default Home;
