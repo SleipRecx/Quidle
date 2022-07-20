@@ -3,10 +3,18 @@ import { Column, Row } from "src/components/atoms/layout";
 import { H1, P } from "src/components/atoms/typography";
 import Confetti from "src/components/molecules/Confetti/Confetti";
 import CountUp from "src/components/molecules/CountUp/CountUp";
+import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
 
 const CompletedGameCard = ({ stats, points }: CompletedGameCardProps) => {
   const [maxHeight, setMaxHeight] = useState(0);
+
+  useEffect(() => {
+    localStorage.setItem(
+      `quiz-results-${getTodaysDate()}`,
+      JSON.stringify(stats)
+    );
+  }, [stats]);
 
   useEffect(() => {
     setTimeout(() => {

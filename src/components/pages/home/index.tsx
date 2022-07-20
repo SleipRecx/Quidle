@@ -1,11 +1,10 @@
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
-import { DUMMY_QUESTION } from "src/models/client/questions/constants";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 import { HomePageProps } from "./types";
 
-const HomePage = ({ questions, loading }: HomePageProps) => {
+const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
@@ -89,8 +88,8 @@ const HomePage = ({ questions, loading }: HomePageProps) => {
       onPressAnswer={onPressAnswer}
       onTimeComplete={onTimeComplete}
       onPressPlay={onPressPlay}
-      stats={stats}
-      isFinished={isFinished}
+      stats={localStorageStats || stats}
+      isFinished={isFinished || !!localStorageStats}
       isStarted={isStarted}
       points={points}
       loading={loading}
