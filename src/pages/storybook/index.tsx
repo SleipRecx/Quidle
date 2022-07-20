@@ -31,7 +31,7 @@ const StorybookPage = () => {
           Click me
         </Button>
         <h2>Input</h2>
-        <Input />
+        <Input onChangeText={(e) => undefined} value="ok" />
         <h2>Copy to clipboard</h2>
         <CopyToClipboard
           text={"Example text"}
