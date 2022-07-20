@@ -75,7 +75,6 @@ const StorybookPage = () => {
           />
         </div>
         <h2>Modal</h2>
-        <Modal />
         <div
           style={{
             height: 100,
