@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactCountdown from "react-countdown";
 import { GAME_TIME_MS } from "src/constants/app";
-import { CountdownProps } from "./types";
+import CountDownBar from "./CountDownBar";
+import CountDownText from "./CountDownText";
+import { CountDownProps } from "./types";
 
-const CountDown = ({ onComplete }: CountdownProps) => {
+const CountDown = ({ onComplete, progressBar }: CountDownProps) => {
+  const [remainingTimeMs, setRemainingTimeMs] = useState(GAME_TIME_MS);
   return (
-    <ReactCountdown
-      date={Date.now() + GAME_TIME_MS}
-      onComplete={onComplete}
-      onTick={(delta) => console.log("delta", delta.seconds)}
-      renderer={(props) => (
-        <div
-          style={{
-            fontSize: 45,
-          }}
-        >
-          {`${props.seconds + props.minutes * 60}s`}
-        </div>
-      )}
-    />
+    <div>
+      <div
+        style={{
+          display: progressBar ? "block" : "none",
+        }}
+      >
+        <CountDownBar remainingTimeMs={remainingTimeMs} />
+      </div>
+
+      <div
+        style={{
+          display: progressBar ? "none" : "block",
+        }}
+      >
+        <CountDownText
+          setRemainingTimeMs={setRemainingTimeMs}
+          onComplete={onComplete}
+        />
+      </div>
+    </div>
   );
 };
 

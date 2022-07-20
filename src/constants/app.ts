@@ -1,3 +1,3 @@
 export const APP_NAME = "QUIDLE";
 
-export const GAME_TIME_MS = 10000;
+export const GAME_TIME_MS = 60000;
