@@ -1,20 +1,23 @@
-import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "src/components/atoms/buttons/Button";
 import Input from "src/components/atoms/inputs/Input";
 import { Column, Row } from "src/components/atoms/layout";
-import { H1, P } from "src/components/atoms/typography";
+import { H1, H3, P } from "src/components/atoms/typography";
 import Confetti from "src/components/molecules/Confetti/Confetti";
 import CountUp from "src/components/molecules/CountUp/CountUp";
+import useGroupId from "src/hooks/useGroupId";
+import { Highscore } from "src/models/client/highscores/types";
 import { _firebaseService } from "src/services/firebaseService";
 import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
-
+const isUpperCase = (string: string) => /^[A-Z]*$/.test(string);
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
-  const router = useRouter();
+  const groupId = useGroupId();
   const [maxHeight, setMaxHeight] = useState(0);
   const [name, setName] = useState("");
+  const [leaderboardName, setLeaderboardName] = useState("");
+  const [highscores, setHighscores] = useState<Highscore[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,13 +37,22 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
 
   const createLeaderboard = async () => {
     try {
+      if (leaderboardName.length === 0) {
+        toast.error("You need a leaderboard name");
+        return;
+      }
+      if (name.length === 0) {
+        toast.error("Write in a name so other users can see who you are");
+        return;
+      }
       setLoading(true);
-      await _firebaseService.add("highscores", {
+      await _firebaseService.add<Highscore>("highscores", {
         createdAt: new Date().getTime(),
         date: getTodaysDate(),
         stats: stats,
         points: stats.points,
-        groupId: name,
+        groupId: leaderboardName,
+        name: name,
       });
       toast.success("We are redirecting you to your leaderboard in a new tab", {
         duration: 4000,
@@ -48,13 +60,13 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
       });
       setTimeout(() => {
         window.open(
-          `http://localhost:3000/${name}`,
+          `http://localhost:3000/${leaderboardName}`,
           "_blank",
           "noopener,noreferrer"
         );
+        setName("");
+        setLeaderboardName("");
       }, 2000);
-
-      setName("");
     } catch (error) {
       toast.error("Something went wrong " + JSON.stringify(error));
     } finally {
@@ -62,9 +74,46 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
     }
   };
 
-  const onChangeLeaderboardText = (text: string) => {
-    setName(text.replace(/\s/g, ""));
+  const onChangeName = (text: string) => {
+    setName(text);
   };
+
+  const onChangeLeaderboardText = (text: string) => {
+    if (isUpperCase(text)) {
+      toast.error("We only allow lowercase in leaderboard names");
+    }
+    if (text.indexOf(" ") >= 0) {
+      toast.error("Do not include space in a leaderboard name");
+    }
+    setLeaderboardName(text.replace(/\s/g, "").toLowerCase());
+  };
+
+  const fetchHighscores = async (mGroupId: string) => {
+    // TODO: FETCH HIGHSCORES HERE AND RENDER THEM
+    console.log("fetch");
+    try {
+      const mHighscores = await _firebaseService.getQueriedCollection<Highscore>(
+        "highscores",
+        [
+          ["groupId", "==", mGroupId],
+          ["date", "==", getTodaysDate()],
+        ]
+      );
+      const sortedHighscores = mHighscores.sort(
+        (highscoreA, highscoreB) => highscoreB.points - highscoreA.points
+      );
+      setHighscores(sortedHighscores);
+      console.log("highscores", highscores);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!!groupId && highscores.length === 0) {
+      fetchHighscores(groupId);
+    }
+  }, [groupId]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -74,6 +123,31 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   return (
     <Column fullWidth mx={"10vw"}>
       <Confetti />
+      {groupId && (
+        <Column mb="20vh">
+          <H1 textAlign="center" mb="3vh">
+            {groupId} highscore today
+          </H1>
+          {/* TODO: Lottie here */}
+          {/*highscores.length > 0 && (
+            <Column>
+              <H3 bold> Current champion: {highscores[0].name}</H3>
+            </Column>
+          )*/}
+          <Column>
+            {highscores.map((highscore, index) => {
+              return (
+                <Row key={index} fullWidth>
+                  <Column width={50}>{index + 1}.</Column>
+                  <Column width={100}>{highscore.points}</Column>
+                  <Column flex={1}>{highscore.name}</Column>
+                </Row>
+              );
+            })}
+          </Column>
+        </Column>
+      )}
+
       <H1 textAlign="center" mb="3vh">
         <CountUp end={stats.points} duration={1.5} /> points 🔥
       </H1>
@@ -147,16 +221,24 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           </div>
         </Column>
       </Row>
-      <Column mt="3vh">
+
+      <Column mt={"3vh"} mb="3vh">
+        <Column mb="10px">
+          <Input
+            placeholder="Your name (or nickname)"
+            onChangeText={onChangeName}
+            value={name}
+          />
+        </Column>
         <Column mb="10px">
           <Input
             placeholder="Name of leaderboard"
             onChangeText={onChangeLeaderboardText}
-            value={name}
+            value={leaderboardName}
           />
         </Column>
         <Button loading={loading} onClick={createLeaderboard}>
-          Add score to leaderboard
+          {`Add score to ${groupId ? "another " : ""}leaderboard`}
         </Button>
       </Column>
     </Column>

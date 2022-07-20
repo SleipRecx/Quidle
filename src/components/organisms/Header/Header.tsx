@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
@@ -9,10 +9,9 @@ import { Column, Row } from "src/components/atoms/layout";
 import Modal from "src/components/atoms/modals/Modal";
 import { H1, H3, P, TextBase } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
+import useGroupId from "src/hooks/useGroupId";
 import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
 const Header = () => {
-  const router = useRouter();
-
   const onPressPracticeTrivia = () => {
     router.push("/practice");
   };
@@ -23,6 +22,8 @@ const Header = () => {
   const [modalContent, setModalContent] = React.useState<
     "settings" | "leaderboard" | "question" | "gdpr ❤️" | undefined
   >(undefined);
+
+  const groupId = useGroupId();
 
   return (
     <Row
@@ -50,7 +51,7 @@ const Header = () => {
       </Row>
       <Column>
         <TextBase bold fontSize={30}>
-          {APP_NAME}
+          {groupId ? groupId : APP_NAME}
         </TextBase>
       </Column>
       <Row alignItems="center">

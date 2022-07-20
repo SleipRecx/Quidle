@@ -22,7 +22,7 @@ const QuizTemplate = ({
     <LoadingColumn
       fullWidth
       backgroundColor={"#131315"}
-      height={"100vh"}
+      minHeight={"100vh"}
       alignItems="center"
       justifyContent="flex-start"
       color="white"
@@ -67,7 +67,7 @@ const QuizTemplate = ({
         )}
 
         {isFinished && (
-          <Column width="100%" mt="20vh" center>
+          <Column width="100%" mt="15vh" center>
             <CompletedGameCard stats={stats} />
           </Column>
         )}

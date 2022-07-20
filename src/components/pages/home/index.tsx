@@ -1,10 +1,12 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
+import useGroupId from "src/hooks/useGroupId";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 import { HomePageProps } from "./types";
 
 const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
+  const groupId = useGroupId();
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
