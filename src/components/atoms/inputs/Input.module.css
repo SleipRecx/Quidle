@@ -1,6 +1,7 @@
 .Input {
   width: 100% !important;
   min-height: 2.375rem;
+  text-align: center;
   max-height: 48px;
   line-height: 2.375rem;
   min-width: 6.25rem;
