@@ -129,7 +129,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
             })}
           </Column>
           <CopyToClipboard
-            text={`www.quidlegame.com/${groupId}`}
+            text={`https://quidle.vercel.app/${groupId}`}
             onCopy={() =>
               toast.success("Copied link to clipboard", {
                 position: "bottom-center",
