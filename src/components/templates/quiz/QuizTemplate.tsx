@@ -21,7 +21,21 @@ const QuizTemplate = ({
   points,
   onPressPracticeTrivia,
   onPressPracticeMath,
+  loading,
 }: QuizTemplateProps) => {
+  if (loading) {
+    return (
+      <Column
+        fullWidth
+        center
+        backgroundColor={"#131315"}
+        height={"100vh"}
+        color="white"
+      >
+        Loading questions..
+      </Column>
+    );
+  }
   return (
     <Column
       fullWidth

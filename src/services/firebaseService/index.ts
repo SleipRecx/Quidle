@@ -31,7 +31,7 @@ class FirebaseService {
     this.db = db;
   }
 
-  add(path: string, object: any) {
+  add<T>(path: string, object: T) {
     return this.db
       .collection(path)
       .add(object)
@@ -43,7 +43,7 @@ class FirebaseService {
       });
   }
 
-  set(path: string, object: any, settings: any) {
+  set<T>(path: string, object: T, settings?: any) {
     return this.db
       .doc(path)
       .set(object, settings)

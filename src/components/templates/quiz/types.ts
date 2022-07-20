@@ -11,4 +11,5 @@ export type QuizTemplateProps = {
   onPressPlay: () => void;
   onPressPracticeMath: () => void;
   onPressPracticeTrivia: () => void;
+  loading: boolean;
 };

@@ -7,12 +7,12 @@ class TriviaAPI {
   static async getTriviaQuestions(): Promise<Result<TriviaQuestion[], Error>> {
     try {
       const responseEasy = await fetch(
-        `${TRIVIA_API_URL}?limit=20&difficulty=easy`
+        `${TRIVIA_API_URL}?limit=5&difficulty=easy`
       );
       const responseJsonEasy = (await responseEasy.json()) as Partial<TriviaQuestion>[];
 
       const responseMedium = await fetch(
-        `${TRIVIA_API_URL}?limit=20&difficulty=medium`
+        `${TRIVIA_API_URL}?limit=5&difficulty=medium`
       );
       const responseJsonMedium = (await responseMedium.json()) as Partial<TriviaQuestion>[];
 

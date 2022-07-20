@@ -8,7 +8,7 @@ import { Column } from "src/components/atoms/layout";
 import Modal from "src/components/atoms/modals/Modal";
 import * as animationData from "../../../public/static/animations/success.json";
 
-const ComponentsPage = () => {
+const StorybookPage = () => {
   return (
     <Column center>
       <div
@@ -86,4 +86,4 @@ const ComponentsPage = () => {
   );
 };
 
-export default ComponentsPage;
+export default StorybookPage;
