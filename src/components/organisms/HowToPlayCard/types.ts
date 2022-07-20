@@ -1,3 +1,4 @@
 export type HowToPlayCardProps = {
-  onPressPlay: () => void;
+  onPressPlay?: () => void;
+  moreExplanation?: boolean;
 };

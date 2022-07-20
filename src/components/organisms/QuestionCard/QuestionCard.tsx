@@ -16,7 +16,7 @@ const QuestionCard = ({ question, onPressAnswer }: QuestionCardProps) => {
   }, [question]);
 
   return (
-    <Column fullWidth px={"5vw"}>
+    <Column fullWidth>
       {question.allAnswers.map((answer) => {
         return (
           <AnswerCard

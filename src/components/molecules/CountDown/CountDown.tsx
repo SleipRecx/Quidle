@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactCountdown from "react-countdown";
 import { GAME_TIME_MS } from "src/constants/app";
 import CountDownBar from "./CountDownBar";
 import CountDownText from "./CountDownText";
@@ -11,7 +10,8 @@ const CountDown = ({ onComplete, progressBar }: CountDownProps) => {
     <div>
       <div
         style={{
-          display: progressBar ? "block" : "none",
+          display: progressBar && remainingTimeMs > 1000 ? "block" : "none",
+          width: "100%",
         }}
       >
         <CountDownBar remainingTimeMs={remainingTimeMs} />

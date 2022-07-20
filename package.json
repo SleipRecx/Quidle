@@ -27,6 +27,7 @@
     "react-firebase": "^2.2.8",
     "react-ga": "^3.3.0",
     "react-hot-toast": "^2.2.0",
+    "react-icons": "^4.4.0",
     "react-loading": "^2.0.3",
     "react-lottie": "^1.2.3",
     "react-modal": "^3.14.4",

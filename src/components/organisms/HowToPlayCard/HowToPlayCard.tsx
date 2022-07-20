@@ -4,14 +4,19 @@ import { Column, Row } from "src/components/atoms/layout";
 import { H4, P } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
 import { HowToPlayCardProps } from "./types";
-const HowToPlayCard = ({ onPressPlay }: HowToPlayCardProps) => {
+const HowToPlayCard = ({
+  onPressPlay,
+  moreExplanation,
+}: HowToPlayCardProps) => {
   return (
     <Column fullWidth maxWidth="500px" px="5vw">
-      <Column center mb="5vh">
-        <H4 textAlign="center" color="#898989">
-          HOW TO PLAY
-        </H4>
-      </Column>
+      {onPressPlay && (
+        <Column center mb="5vh">
+          <H4 textAlign="center" color="#898989">
+            HOW TO PLAY
+          </H4>
+        </Column>
+      )}
       <Row mb="10px">
         <Column width={"40px"} alignItems="center">
           <P textAlign="center">⏳</P>
@@ -20,6 +25,7 @@ const HowToPlayCard = ({ onPressPlay }: HowToPlayCardProps) => {
           <P>Answer as many questions as possible within 60 seconds</P>
         </Column>
       </Row>
+
       <Row mb="10px">
         <Column width={40} alignItems="center">
           <P textAlign="center">🏆</P>
@@ -28,6 +34,29 @@ const HowToPlayCard = ({ onPressPlay }: HowToPlayCardProps) => {
           <P>Compare your highscore with friends and others</P>
         </Column>
       </Row>
+      {moreExplanation && (
+        <Row mb="10px">
+          <Column width={40} alignItems="center">
+            <P textAlign="center">🟥</P>
+          </Column>
+          <Column flex={1}>
+            <P>We are using the same scoring algorithm as Kahoot</P>
+          </Column>
+        </Row>
+      )}
+      {moreExplanation && (
+        <Row mb="10px">
+          <Column width={40} alignItems="center">
+            <P textAlign="center">🧘</P>
+          </Column>
+          <Column flex={1}>
+            <P>
+              We are randomly selecting questions each day from a bank with over
+              8000 questions.
+            </P>
+          </Column>
+        </Row>
+      )}
       <Row mb="5vh">
         <Column width={40} alignItems="center">
           <P textAlign="center">☀️</P>
@@ -46,16 +75,19 @@ const HowToPlayCard = ({ onPressPlay }: HowToPlayCardProps) => {
           </P>
         </Column>
       </Row>
-      <Column center>
-        <Button
-          onClick={onPressPlay}
-          style={{
-            maxWidth: 200,
-          }}
-        >
-          PLAY
-        </Button>
-      </Column>
+
+      {!!onPressPlay && (
+        <Column center>
+          <Button
+            onClick={onPressPlay}
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            PLAY
+          </Button>
+        </Column>
+      )}
     </Column>
   );
 };

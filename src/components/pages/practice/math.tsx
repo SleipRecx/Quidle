@@ -10,13 +10,13 @@ import { generateRandom, shuffle } from "src/utils";
 const PracticeMathQuizPage = () => {
   // NB: to of the same answer might appear
   const getMathQuestion = useCallback((): TriviaQuestion => {
-    const number1 = generateRandom(10, 100);
-    const number2 = generateRandom(10, 100);
-    const diffFactor = generateRandom(1, 10);
+    const number1 = generateRandom(2, 20);
+    const number2 = generateRandom(2, 20);
+    const diffFactor = generateRandom(1, 5);
     const correctAnswer = number1 * number2;
-    const invalidAnswer1 = (number1 - diffFactor) * number2;
+    const invalidAnswer1 = Math.abs((number1 - diffFactor) * number2);
     const invalidAnswer2 = (number1 + diffFactor) * number2;
-    const invalidAnswer3 = number1 * (number2 - diffFactor);
+    const invalidAnswer3 = Math.abs(number1 * (number2 - diffFactor));
     const incorrectAnswers = [invalidAnswer1, invalidAnswer2, invalidAnswer3];
     const allAnswers = shuffle(
       incorrectAnswers.concat(correctAnswer)

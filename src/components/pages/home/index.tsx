@@ -20,8 +20,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
-  const router = useRouter();
-
   const handleCorrectAnswer = (question: TriviaQuestion, answer: string) => {
     // This part is for Kahoot scoring
     const questionTime = 10;
@@ -72,14 +70,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     setIsStarted(true);
   };
 
-  const onPressPracticeTrivia = () => {
-    router.push("/practice");
-  };
-
-  const onPressPracticeMath = () => {
-    router.push("/practice/math");
-  };
-
   return (
     <QuizTemplate
       question={question}
@@ -90,8 +80,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       isFinished={isFinished || !!localStorageStats}
       isStarted={isStarted}
       loading={loading}
-      onPressPracticeTrivia={onPressPracticeTrivia}
-      onPressPracticeMath={onPressPracticeMath}
     />
   );
 };

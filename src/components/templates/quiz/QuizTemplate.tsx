@@ -1,15 +1,13 @@
 import React from "react";
 import { Column, Float, LoadingColumn } from "src/components/atoms/layout";
-import { H1, H4, P, TextBase } from "src/components/atoms/typography";
+import { H1 } from "src/components/atoms/typography";
 import CountDown from "src/components/molecules/CountDown/CountDown";
-import CountUp from "src/components/molecules/CountUp/CountUp";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
+import Header from "src/components/organisms/Header/Header";
 import HowToPlayCard from "src/components/organisms/HowToPlayCard/HowToPlayCard";
 import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
-import { getFunnyEmoji } from "src/utils/text";
 import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
-
 const QuizTemplate = ({
   question,
   onPressAnswer,
@@ -18,8 +16,6 @@ const QuizTemplate = ({
   isStarted,
   isFinished,
   stats,
-  onPressPracticeTrivia,
-  onPressPracticeMath,
   loading,
 }: QuizTemplateProps) => {
   return (
@@ -28,45 +24,37 @@ const QuizTemplate = ({
       backgroundColor={"#131315"}
       height={"100vh"}
       alignItems="center"
-      justifyContent="space-between"
+      justifyContent="flex-start"
       color="white"
       loading={loading}
     >
-      {!isStarted && !isFinished && (
-        <Column width="100vw" height="100vh" center>
-          <Float bottom={"5px"}>
-            <TextBase fontSize={10}>
-              I just want to practice my{" "}
-              <span
-                onClick={onPressPracticeTrivia}
-                style={{
-                  textDecoration: "underline",
-                }}
-              >
-                trivia
-              </span>{" "}
-              /{" "}
-              <span
-                onClick={onPressPracticeMath}
-                style={{
-                  textDecoration: "underline",
-                }}
-              >
-                math
-              </span>{" "}
-              skills
-            </TextBase>
-          </Float>
+      <Header />
 
+      {!isStarted && !isFinished && (
+        <Column
+          width="100vw"
+          height="100%"
+          alignItems="center"
+          marginTop="20vh"
+        >
           <Column>
             <HowToPlayCard onPressPlay={onPressPlay} />
           </Column>
         </Column>
       )}
+      {isStarted && !isFinished && (
+        <Float top={50} fullWidth center>
+          <Column mt="3vh" center>
+            <Wrapper>
+              <CountDown onComplete={onTimeComplete} progressBar />
+            </Wrapper>
+          </Column>
+        </Float>
+      )}
 
       {!isFinished && question && isStarted && (
         <Wrapper>
-          <Column center px={"5vw"}>
+          <Column center px={"5vw"} height={"35vh"}>
             <H1 textAlign="center">{question.question}</H1>
           </Column>
         </Wrapper>
@@ -79,20 +67,11 @@ const QuizTemplate = ({
         )}
 
         {isFinished && (
-          <Column width="100vw" height="100vh" center>
+          <Column width="100%" mt="20vh" center>
             <CompletedGameCard stats={stats} />
           </Column>
         )}
       </Wrapper>
-      {isStarted && !isFinished && (
-        <Column center flex={1}>
-          <CountDown onComplete={onTimeComplete} />
-          <H4>
-            <CountUp end={stats.points} /> points{" "}
-            {stats.points > 0 && getFunnyEmoji()}
-          </H4>
-        </Column>
-      )}
     </LoadingColumn>
   );
 };

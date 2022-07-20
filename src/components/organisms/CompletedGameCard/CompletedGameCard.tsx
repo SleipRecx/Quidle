@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Column, Row } from "src/components/atoms/layout";
 import { H1, P } from "src/components/atoms/typography";
 import Confetti from "src/components/molecules/Confetti/Confetti";
-import CountDown from "src/components/molecules/CountDown/CountDown";
 import CountUp from "src/components/molecules/CountUp/CountUp";
 import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
@@ -94,7 +93,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               backgroundColor: "#333333",
             }}
           >
-            <P textAlign="center">Close</P>
+            <P textAlign="center">Incorrect</P>
           </div>
         </Column>
       </Row>

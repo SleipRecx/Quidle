@@ -1,5 +1,9 @@
 import React from "react";
 import ReactModal from "react-modal";
+import { Column, Float, Row } from "../layout";
+import { H3, H4 } from "../typography";
+import { ModalProps } from "./types";
+import { IoMdClose } from "react-icons/io";
 ReactModal.setAppElement("body");
 
 const customStyles = {
@@ -9,33 +13,42 @@ const customStyles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
+    minWidth: "50vw",
+    maxWidth: 500,
     transform: "translate(-50%, -50%)",
+    //backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "#121213",
+    color: "white",
+    border: "none",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
 };
 
-const Modal = () => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
+const Modal = ({ onClose, isOpen, children, title }: ModalProps) => {
   const afterOpenModal = () => {
     // references are now sync'd and can be accessed.
   };
 
   const closeModal = () => {
-    setIsOpen(false);
+    onClose();
   };
   return (
     <ReactModal
-      isOpen={modalIsOpen}
+      isOpen={isOpen}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div>This is a modal. Click outside the modal to close it</div>
+      <Float top={"5px"} right={"5px"}>
+        <IoMdClose size={24} onClick={closeModal} />
+      </Float>
+      <Column fullWidth center>
+        <H4>{title?.toUpperCase()}</H4>
+      </Column>
+      {children}
     </ReactModal>
   );
 };

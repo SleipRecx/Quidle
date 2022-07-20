@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  max-width: 500px;
+  max-width: 450px;
+  padding: 0 20px;
   width: 100%;
   display: flex;
-  flex: 1;
+  flex-direction: column;
 `;
