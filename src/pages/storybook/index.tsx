@@ -5,7 +5,6 @@ import Lottie from "react-lottie";
 import Button from "src/components/atoms/buttons/Button";
 import Input from "src/components/atoms/inputs/Input";
 import { Column } from "src/components/atoms/layout";
-import Modal from "src/components/atoms/modals/Modal";
 import * as animationData from "../../../public/static/animations/success.json";
 
 const StorybookPage = () => {

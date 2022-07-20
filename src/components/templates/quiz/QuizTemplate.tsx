@@ -17,6 +17,8 @@ const QuizTemplate = ({
   isFinished,
   stats,
   loading,
+  setName,
+  name,
 }: QuizTemplateProps) => {
   return (
     <LoadingColumn
@@ -38,7 +40,11 @@ const QuizTemplate = ({
           marginTop="20vh"
         >
           <Column>
-            <HowToPlayCard onPressPlay={onPressPlay} />
+            <HowToPlayCard
+              onPressPlay={onPressPlay}
+              setName={setName}
+              name={name}
+            />
           </Column>
         </Column>
       )}

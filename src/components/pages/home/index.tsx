@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
 import useGroupId from "src/hooks/useGroupId";
 import { Highscore } from "src/models/client/highscores/types";
@@ -12,6 +13,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const groupId = useGroupId();
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
+  const [name, setName] = useState("");
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
     new Date().getTime()
   );
@@ -72,6 +74,15 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       : undefined;
 
   const onPressPlay = () => {
+    if (groupId && name.length === 0) {
+      toast.error(
+        `Add your nickname so we can add your score to the ${groupId} leaderboard`,
+        {
+          position: "bottom-center",
+        }
+      );
+      return;
+    }
     setIsStarted(true);
   };
 
@@ -81,14 +92,25 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         `quiz-results-${getTodaysDate()}`,
         JSON.stringify(stats)
       );
-      _firebaseService.add<Highscore>("highscores", {
-        createdAt: new Date().getTime(),
-        date: getTodaysDate(),
-        stats: stats,
-        points: stats.points,
-      });
+      if (groupId) {
+        _firebaseService.add<Highscore>("highscores", {
+          createdAt: new Date().getTime(),
+          date: getTodaysDate(),
+          stats: stats,
+          points: stats.points,
+          groupId: groupId,
+          name: name,
+        });
+      } else {
+        _firebaseService.add<Highscore>("highscores", {
+          createdAt: new Date().getTime(),
+          date: getTodaysDate(),
+          stats: stats,
+          points: stats.points,
+        });
+      }
     }
-  }, [stats]);
+  }, [stats, name, groupId]);
 
   useEffect(() => {
     if (isFinished) {
@@ -105,6 +127,8 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       stats={localStorageStats || stats}
       isFinished={isFinished || !!localStorageStats}
       isStarted={isStarted}
+      setName={groupId ? setName : undefined}
+      name={name}
       loading={loading}
     />
   );

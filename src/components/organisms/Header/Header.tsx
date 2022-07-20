@@ -102,17 +102,22 @@ const Header = () => {
             </Column>
           </>
         )}
+        {modalContent === "leaderboard" && (
+          <Column>
+            You can add your score to as many leaderboards as you want. Feel
+            free to create leaderboards and share them with your friends.
+          </Column>
+        )}
         {modalContent === "question" && (
           <Column mt="30px">
-            <HowToPlayCard moreExplanation />
+            <HowToPlayCard moreExplanation name="" />
           </Column>
         )}
         {modalContent === "gdpr ❤️" && (
           <Column mt="30px" center>
             <P>
-              We are 100% GDPR friendly as we are not storing or tracking any
-              data of you. It is not possible to create an account to make it
-              simple for you.
+              We respect your privacy policy, and are not storing any
+              information about.
             </P>
           </Column>
         )}

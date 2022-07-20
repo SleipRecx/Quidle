@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import Button from "src/components/atoms/buttons/Button";
 import Input from "src/components/atoms/inputs/Input";
 import { Column, Row } from "src/components/atoms/layout";
-import { H1, H3, P } from "src/components/atoms/typography";
+import { H1, H2, H3, P, TextBase } from "src/components/atoms/typography";
 import Confetti from "src/components/molecules/Confetti/Confetti";
 import CountUp from "src/components/molecules/CountUp/CountUp";
 import useGroupId from "src/hooks/useGroupId";
@@ -12,6 +12,8 @@ import { Highscore } from "src/models/client/highscores/types";
 import { _firebaseService } from "src/services/firebaseService";
 import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 const isUpperCase = (string: string) => /^[A-Z]*$/.test(string);
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const groupId = useGroupId();
@@ -41,12 +43,15 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         groupId: leaderboardName,
         name: name,
       });
-      toast(`Sending you to ${name}`, {
+      toast(`Sending you to ${leaderboardName}`, {
         duration: 4000,
         position: "bottom-center",
         icon: "🏆",
       });
+      setName("");
+      setLeaderboardName("");
       router.push(`/${leaderboardName}`);
+      fetchHighscores(leaderboardName);
     } catch (error) {
       toast.error("Something went wrong " + JSON.stringify(error));
     } finally {
@@ -91,7 +96,11 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
 
   useEffect(() => {
     if (!!groupId && highscores.length === 0) {
-      fetchHighscores(groupId);
+      setTimeout(() => {
+        // TODO: delay as we want to add our score to the leaderboard first
+        // Should be changed with a listener
+        fetchHighscores(groupId);
+      }, 500);
     }
   }, [groupId]);
 
@@ -108,13 +117,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           <H1 textAlign="center" mb="3vh">
             {groupId} highscore today
           </H1>
-          {/* TODO: Lottie here */}
-          {/*highscores.length > 0 && (
-            <Column>
-              <H3 bold> Current champion: {highscores[0].name}</H3>
-            </Column>
-          )*/}
-          <Column>
+          <Column mb="40px">
             {highscores.map((highscore, index) => {
               return (
                 <Row key={index} fullWidth>
@@ -125,12 +128,29 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               );
             })}
           </Column>
+          <CopyToClipboard
+            text={`www.quidlegame.com/${groupId}`}
+            onCopy={() =>
+              toast.success("Copied link to clipboard", {
+                position: "bottom-center",
+              })
+            }
+          >
+            <Button
+              style={{
+                marginBottom: 10,
+                background: "green",
+              }}
+            >
+              Share leaderboard
+            </Button>
+          </CopyToClipboard>
         </Column>
       )}
 
-      <H1 textAlign="center" mb="3vh">
-        <CountUp end={stats.points} duration={1.5} /> points 🔥
-      </H1>
+      <H2 textAlign="center" mb="3vh">
+        You got <CountUp end={stats.points} duration={1.5} /> points today 🔥
+      </H2>
 
       <Row
         fullWidth
@@ -202,10 +222,10 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         </Column>
       </Row>
 
-      <Column mt={"3vh"} mb="3vh">
+      <Column mt={"20vh"} mb="3vh">
         <Column mb="10px">
           <Input
-            placeholder="Your name (or nickname)"
+            placeholder="Your nickname"
             onChangeText={onChangeName}
             value={name}
           />
@@ -220,6 +240,10 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         <Button loading={loading} onClick={createLeaderboard}>
           {`Add score to ${groupId ? "another " : ""}leaderboard`}
         </Button>
+        <TextBase fontSize={12} textAlign="center" color="#747474" mt="8px">
+          If the leaderboard does not exist, we will create one for you so you
+          can invite others
+        </TextBase>
       </Column>
     </Column>
   );

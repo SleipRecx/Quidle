@@ -9,4 +9,6 @@ export type QuizTemplateProps = {
   stats: Stats;
   onPressPlay: () => void;
   loading: boolean;
+  setName?: (name: string) => void;
+  name: string;
 };

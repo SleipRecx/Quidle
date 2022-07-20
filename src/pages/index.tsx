@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       } else {
         console.log("getting questions");
         let questions: TriviaQuestion[] = [];
-        while (questions.length < 10) {
+        while (questions.length < 25) {
           const questionsResult = await TriviaAPI.getTriviaQuestions();
           const newQuestions = questionsResult._unsafeUnwrap();
           const filteredNewQuestions = newQuestions.filter(

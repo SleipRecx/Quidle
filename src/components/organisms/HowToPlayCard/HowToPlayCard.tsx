@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "src/components/atoms/buttons/Button";
+import Input from "src/components/atoms/inputs/Input";
 import { Column, Row } from "src/components/atoms/layout";
 import { H4, P } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
@@ -7,6 +8,8 @@ import { HowToPlayCardProps } from "./types";
 const HowToPlayCard = ({
   onPressPlay,
   moreExplanation,
+  setName,
+  name,
 }: HowToPlayCardProps) => {
   return (
     <Column fullWidth maxWidth="500px" px="5vw">
@@ -75,15 +78,18 @@ const HowToPlayCard = ({
           </P>
         </Column>
       </Row>
-
+      {!!setName && (
+        <Column center mb="10px">
+          <Input
+            onChangeText={(text) => setName(text)}
+            value={name}
+            placeholder="Your nickname"
+          />
+        </Column>
+      )}
       {!!onPressPlay && (
-        <Column center>
-          <Button
-            onClick={onPressPlay}
-            style={{
-              maxWidth: 200,
-            }}
-          >
+        <Column center fullWidth>
+          <Button onClick={onPressPlay} style={{}}>
             PLAY
           </Button>
         </Column>
