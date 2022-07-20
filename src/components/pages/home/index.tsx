@@ -2,7 +2,10 @@ import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
 import useGroupId from "src/hooks/useGroupId";
+import { Highscore } from "src/models/client/highscores/types";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
+import { _firebaseService } from "src/services/firebaseService";
+import { getTodaysDate } from "src/utils/time";
 import { HomePageProps } from "./types";
 
 const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
@@ -36,7 +39,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       ...stats,
       correctAnswerCount: stats.correctAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
-      points: mPoints + stats.points,
+      points: (mPoints > 0 ? mPoints : 0) + stats.points,
     });
   };
 
@@ -71,6 +74,27 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const onPressPlay = () => {
     setIsStarted(true);
   };
+
+  const updateHighscore = useCallback(async () => {
+    if (!localStorage.getItem(`quiz-results-${getTodaysDate()}`)) {
+      localStorage.setItem(
+        `quiz-results-${getTodaysDate()}`,
+        JSON.stringify(stats)
+      );
+      _firebaseService.add<Highscore>("highscores", {
+        createdAt: new Date().getTime(),
+        date: getTodaysDate(),
+        stats: stats,
+        points: stats.points,
+      });
+    }
+  }, [stats]);
+
+  useEffect(() => {
+    if (isFinished) {
+      updateHighscore();
+    }
+  }, [isFinished, updateHighscore]);
 
   return (
     <QuizTemplate

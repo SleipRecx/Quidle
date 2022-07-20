@@ -54,7 +54,7 @@ export type Props = BaseLayoutProps & {
 export const LoadingColumn = (props: Props) =>
   props.loading ? (
     <Column {...props}>
-      <Column height="100%" width="100%" center>
+      <Column height="100%" width="100%" center flex={1}>
         <Loading type="bars" color="white" width={48} />
       </Column>
     </Column>

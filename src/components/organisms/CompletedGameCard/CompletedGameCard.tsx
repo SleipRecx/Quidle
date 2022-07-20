@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "src/components/atoms/buttons/Button";
@@ -14,26 +15,12 @@ import { CompletedGameCardProps } from "./types";
 const isUpperCase = (string: string) => /^[A-Z]*$/.test(string);
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const groupId = useGroupId();
+  const router = useRouter();
   const [maxHeight, setMaxHeight] = useState(0);
   const [name, setName] = useState("");
   const [leaderboardName, setLeaderboardName] = useState("");
   const [highscores, setHighscores] = useState<Highscore[]>([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!localStorage.getItem(`quiz-results-${getTodaysDate()}`)) {
-      localStorage.setItem(
-        `quiz-results-${getTodaysDate()}`,
-        JSON.stringify(stats)
-      );
-      _firebaseService.add("highscores", {
-        createdAt: new Date().getTime(),
-        date: getTodaysDate(),
-        stats: stats,
-        points: stats.points,
-      });
-    }
-  }, [stats]);
 
   const createLeaderboard = async () => {
     try {
@@ -54,19 +41,12 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         groupId: leaderboardName,
         name: name,
       });
-      toast.success("We are redirecting you to your leaderboard in a new tab", {
+      toast(`Sending you to ${name}`, {
         duration: 4000,
         position: "bottom-center",
+        icon: "🏆",
       });
-      setTimeout(() => {
-        window.open(
-          `http://localhost:3000/${leaderboardName}`,
-          "_blank",
-          "noopener,noreferrer"
-        );
-        setName("");
-        setLeaderboardName("");
-      }, 2000);
+      router.push(`/${leaderboardName}`);
     } catch (error) {
       toast.error("Something went wrong " + JSON.stringify(error));
     } finally {
