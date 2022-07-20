@@ -7,7 +7,6 @@ export type QuizTemplateProps = {
   isStarted: boolean;
   isFinished: boolean;
   stats: Stats;
-  points: number;
   onPressPlay: () => void;
   onPressPracticeMath: () => void;
   onPressPracticeTrivia: () => void;

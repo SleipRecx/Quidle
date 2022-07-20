@@ -6,7 +6,7 @@ import CountUp from "src/components/molecules/CountUp/CountUp";
 import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
 
-const CompletedGameCard = ({ stats, points }: CompletedGameCardProps) => {
+const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const [maxHeight, setMaxHeight] = useState(0);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const CompletedGameCard = ({ stats, points }: CompletedGameCardProps) => {
     <Column fullWidth mx={"10vw"}>
       <Confetti />
       <H1 textAlign="center" mb="3vh">
-        <CountUp end={points} duration={1.5} /> points 🔥
+        <CountUp end={stats.points} duration={1.5} /> points 🔥
       </H1>
 
       <Row

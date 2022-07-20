@@ -18,7 +18,6 @@ const QuizTemplate = ({
   isStarted,
   isFinished,
   stats,
-  points,
   onPressPracticeTrivia,
   onPressPracticeMath,
   loading,
@@ -81,7 +80,7 @@ const QuizTemplate = ({
 
         {isFinished && (
           <Column width="100vw" height="100vh" center>
-            <CompletedGameCard stats={stats} points={points} />
+            <CompletedGameCard stats={stats} />
           </Column>
         )}
       </Wrapper>
@@ -89,7 +88,8 @@ const QuizTemplate = ({
         <Column center flex={1}>
           <CountDown onComplete={onTimeComplete} />
           <H4>
-            <CountUp end={points} /> points {points > 0 && getFunnyEmoji()}
+            <CountUp end={stats.points} /> points{" "}
+            {stats.points > 0 && getFunnyEmoji()}
           </H4>
         </Column>
       )}

@@ -15,20 +15,14 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     correctAnswerCount: 0,
     questionsCount: 0,
     wrongAnswerCount: 0,
+    points: 0,
   });
 
-  const [points, setPoints] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
   const router = useRouter();
 
   const handleCorrectAnswer = (question: TriviaQuestion, answer: string) => {
-    setStats({
-      ...stats,
-      correctAnswerCount: stats.correctAnswerCount + 1,
-      questionsCount: stats.questionsCount + 1,
-    });
-
     // This part is for Kahoot scoring
     const questionTime = 10;
     const responseTime =
@@ -38,8 +32,12 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     const mPoints = Math.floor(
       (1 - (responseTime * 0.5) / questionTime) * maxPoints
     );
-
-    setPoints(mPoints + points);
+    setStats({
+      ...stats,
+      correctAnswerCount: stats.correctAnswerCount + 1,
+      questionsCount: stats.questionsCount + 1,
+      points: mPoints + stats.points,
+    });
   };
 
   const handleWrongAnswer = (question: TriviaQuestion, answer: string) => {
@@ -91,7 +89,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       stats={localStorageStats || stats}
       isFinished={isFinished || !!localStorageStats}
       isStarted={isStarted}
-      points={points}
       loading={loading}
       onPressPracticeTrivia={onPressPracticeTrivia}
       onPressPracticeMath={onPressPracticeMath}
