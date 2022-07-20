@@ -1,5 +1,5 @@
 import React from "react";
-import { Column, Float } from "src/components/atoms/layout";
+import { Column, Float, LoadingColumn } from "src/components/atoms/layout";
 import { H1, H4, P, TextBase } from "src/components/atoms/typography";
 import CountDown from "src/components/molecules/CountDown/CountDown";
 import CountUp from "src/components/molecules/CountUp/CountUp";
@@ -23,27 +23,15 @@ const QuizTemplate = ({
   onPressPracticeMath,
   loading,
 }: QuizTemplateProps) => {
-  if (loading) {
-    return (
-      <Column
-        fullWidth
-        center
-        backgroundColor={"#131315"}
-        height={"100vh"}
-        color="white"
-      >
-        Loading questions..
-      </Column>
-    );
-  }
   return (
-    <Column
+    <LoadingColumn
       fullWidth
       backgroundColor={"#131315"}
       height={"100vh"}
       alignItems="center"
       justifyContent="space-between"
       color="white"
+      loading={loading}
     >
       {!isStarted && !isFinished && (
         <Column width="100vw" height="100vh" center>
@@ -105,7 +93,7 @@ const QuizTemplate = ({
           </H4>
         </Column>
       )}
-    </Column>
+    </LoadingColumn>
   );
 };
 

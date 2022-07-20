@@ -21,9 +21,8 @@ export async function getServerSideProps() {
 
 const Home: NextPage = () => {
   const [todaysQuestions, setTodaysQuestions] = useState<TriviaQuestion[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const fetchTodaysQuestion = async () => {
-    setLoading(true);
     try {
       const doc = await _firebaseService.getDocument<DailyQuiz>(
         `dailyQuiz/${getTodaysDate()}`

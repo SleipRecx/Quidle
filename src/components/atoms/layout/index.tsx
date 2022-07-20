@@ -1,3 +1,4 @@
+import Loading from "react-loading";
 import styled from "styled-components";
 import {
   background,
@@ -45,6 +46,21 @@ export const Column = styled(BaseLayout)`
   display: flex;
   flex-direction: column;
 `;
+
+export type Props = BaseLayoutProps & {
+  loading: boolean;
+};
+
+export const LoadingColumn = (props: Props) =>
+  props.loading ? (
+    <Column {...props}>
+      <Column height="100%" width="100%" center>
+        <Loading type="bars" color="white" width={48} />
+      </Column>
+    </Column>
+  ) : (
+    <Column {...props}>{props.children}</Column>
+  );
 
 export const Row = styled(BaseLayout)`
   display: flex;
