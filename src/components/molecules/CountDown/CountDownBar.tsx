@@ -12,10 +12,10 @@ const CountDownBar = ({ remainingTimeMs }: CountDownBarProps) => {
       }}
     >
       <div
+        className="progress"
         style={{
-          background: "white",
           height: 5,
-          transition: "width 1s ease",
+          transition: "width 1s linear",
           width: `${(100 * remainingTimeMs) / GAME_TIME_MS}%`,
         }}
       ></div>
