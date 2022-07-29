@@ -101,13 +101,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
           groupId: groupId,
           name: name,
         });
-      } else {
-        _firebaseService.add<Highscore>("highscores", {
-          createdAt: new Date().getTime(),
-          date: getTodaysDate(),
-          stats: stats,
-          points: stats.points,
-        });
       }
     }
   }, [stats, name, groupId]);
