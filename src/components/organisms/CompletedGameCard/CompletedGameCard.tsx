@@ -13,23 +13,22 @@ import { _firebaseService } from "src/services/firebaseService";
 import { getTodaysDate } from "src/utils/time";
 import { CompletedGameCardProps } from "./types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { DOMAIN } from "src/constants/app";
 
-const isUpperCase = (string: string) => /^[A-Z]*$/.test(string);
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const groupId = useGroupId();
-  const router = useRouter();
   const [maxHeight, setMaxHeight] = useState(0);
-  const [name, setName] = useState("");
-  const [leaderboardName, setLeaderboardName] = useState("");
+  const localStorageName = localStorage.getItem("name");
+
+  const [name, setName] = useState(localStorageName);
   const [highscores, setHighscores] = useState<Highscore[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showInput, setShowInput] = useState(
+    localStorage.getItem(`highscore-submitted-${getTodaysDate()}`) !== "yes"
+  );
 
-  const createLeaderboard = async () => {
+  const addScore = async () => {
     try {
-      if (leaderboardName.length === 0) {
-        toast.error("You need a leaderboard name");
-        return;
-      }
       if (name.length === 0) {
         toast.error("Write in a name so other users can see who you are");
         return;
@@ -40,37 +39,29 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         date: getTodaysDate(),
         stats: stats,
         points: stats.points,
-        groupId: leaderboardName,
+        groupId: groupId ? groupId.toLowerCase() : null,
         name: name,
       });
-      toast(`Sending you to ${leaderboardName}`, {
-        duration: 4000,
-        position: "bottom-center",
-        icon: "🏆",
-      });
+      localStorage.setItem("name", name);
+
       setName("");
-      setLeaderboardName("");
-      router.push(`/${leaderboardName}`);
-      fetchHighscores(leaderboardName);
+      if (groupId) {
+        fetchHighscores(groupId);
+      } else {
+        fetchOverallHighscores();
+      }
     } catch (error) {
       toast.error("Something went wrong " + JSON.stringify(error));
+      console.log("error", error);
     } finally {
+      setShowInput(false);
+      localStorage.setItem(`highscore-submitted-${getTodaysDate()}`, "yes");
       setLoading(false);
     }
   };
 
   const onChangeName = (text: string) => {
     setName(text);
-  };
-
-  const onChangeLeaderboardText = (text: string) => {
-    if (isUpperCase(text)) {
-      toast.error("We only allow lowercase in leaderboard names");
-    }
-    if (text.indexOf(" ") >= 0) {
-      toast.error("Do not include space in a leaderboard name");
-    }
-    setLeaderboardName(text.replace(/\s/g, "").toLowerCase());
   };
 
   const fetchHighscores = async (mGroupId: string) => {
@@ -94,6 +85,21 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
     }
   };
 
+  const fetchOverallHighscores = async () => {
+    try {
+      const mHighscores = await _firebaseService.getQueriedCollection<Highscore>(
+        "highscores",
+        ["date", "==", getTodaysDate()]
+      );
+      const sortedHighscores = mHighscores.sort(
+        (highscoreA, highscoreB) => highscoreB.points - highscoreA.points
+      );
+      setHighscores(sortedHighscores);
+    } catch (error) {
+      toast.error("error", error);
+    }
+  };
+
   useEffect(() => {
     if (!!groupId && highscores.length === 0) {
       setTimeout(() => {
@@ -101,56 +107,23 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         // Should be changed with a listener
         fetchHighscores(groupId);
       }, 500);
+    } else {
+      setTimeout(() => {
+        // TODO: delay as we want to add our score to the leaderboard first
+        // Should be changed with a listener
+        fetchOverallHighscores();
+      }, 500);
     }
   }, [groupId]);
 
   useEffect(() => {
     setTimeout(() => {
-      setMaxHeight(150);
+      setMaxHeight(120);
     }, 100);
   }, []);
   return (
     <Column fullWidth mx={"10vw"}>
       <Confetti />
-      {groupId && (
-        <Column mb="20vh">
-          <H1 textAlign="center" mb="3vh">
-            {groupId} highscore today
-          </H1>
-          <Column mb="40px">
-            {highscores.map((highscore, index) => {
-              return (
-                <Row key={index} fullWidth>
-                  <Column width={50}>{index + 1}.</Column>
-                  <Column width={100}>{highscore.points}</Column>
-                  <Column flex={1}>{highscore.name}</Column>
-                </Row>
-              );
-            })}
-          </Column>
-          <CopyToClipboard
-            text={`https://quidle.vercel.app/${groupId}`}
-            onCopy={() =>
-              toast.success("Copied link to clipboard", {
-                position: "bottom-center",
-              })
-            }
-          >
-            <Button
-              style={{
-                marginBottom: 10,
-                background: "green",
-              }}
-            >
-              Share leaderboard
-            </Button>
-          </CopyToClipboard>
-        </Column>
-      )}
-
-      <H2 textAlign="center" mb="3vh">
-        You got <CountUp end={stats.points} duration={1.5} /> points today 🔥
-      </H2>
 
       <Row
         fullWidth
@@ -159,7 +132,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         alignItems="flex-end"
       >
         <Column flex={1} mx={10}>
-          <P textAlign="center">{stats.questionsCount}</P>
+          <P textAlign="center">{stats.points}</P>
 
           <div
             style={{
@@ -176,7 +149,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               backgroundColor: "#333333",
             }}
           >
-            <P textAlign="center">Total</P>
+            <P textAlign="center">Points</P>
           </div>
         </Column>
         <Column flex={1}>
@@ -197,7 +170,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               backgroundColor: "#333333",
             }}
           >
-            <P textAlign="center">Correct</P>
+            <P textAlign="center">✅</P>
           </div>
         </Column>
         <Column flex={1} mx={10}>
@@ -217,33 +190,89 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               backgroundColor: "#333333",
             }}
           >
-            <P textAlign="center">Incorrect</P>
+            <P textAlign="center">❌</P>
           </div>
         </Column>
       </Row>
+      {/*<H2 textAlign="center" my="3vh">
+        You got <CountUp end={stats.points} duration={1.5} /> points
+          </H2>*/}
 
-      <Column mt={"20vh"} mb="3vh">
-        <Column mb="10px">
+      {showInput && (
+        <Column mb="5px" mt="30px">
           <Input
             placeholder="Your nickname"
             onChangeText={onChangeName}
             value={name}
           />
         </Column>
-        <Column mb="10px">
+      )}
+      {showInput && (
+        <Column mb="5px">
+          <Button
+            loading={loading}
+            onClick={addScore}
+            style={{
+              marginBottom: 10,
+              background: "orange",
+            }}
+          >
+            {`Add score`}
+          </Button>
+        </Column>
+      )}
+      {highscores.length > 0 && (
+        <Column mt="10vh">
+          <H1 textAlign="center" mb="3vh">
+            {groupId ? groupId.toLowerCase() : "Today's highscore 🏆"}
+          </H1>
+          <Column mb="40px">
+            {highscores.map((highscore, index) => {
+              return (
+                <Row key={index} fullWidth>
+                  <Column width={50}>{index + 1}.</Column>
+                  <Column width={100}>{highscore.points}</Column>
+                  <Column flex={1}>{highscore.name}</Column>
+                </Row>
+              );
+            })}
+          </Column>
+
+          <CopyToClipboard
+            text={
+              groupId ? `https://${DOMAIN}/${groupId}` : `https://${DOMAIN}`
+            }
+            onCopy={() =>
+              toast.success("Copied link to clipboard", {
+                position: "bottom-center",
+              })
+            }
+          >
+            <Button
+              style={{
+                marginBottom: 10,
+                background: "green",
+              }}
+            >
+              Invite others
+            </Button>
+          </CopyToClipboard>
+        </Column>
+      )}
+
+      <Column mt={"20vh"} mb="3vh">
+        {/*<Column mb="10px">
           <Input
             placeholder="Name of leaderboard"
             onChangeText={onChangeLeaderboardText}
             value={leaderboardName}
           />
-        </Column>
-        <Button loading={loading} onClick={createLeaderboard}>
-          {`Add score to ${groupId ? "another " : ""}leaderboard`}
-        </Button>
-        <TextBase fontSize={12} textAlign="center" color="#747474" mt="8px">
+          </Column>*/}
+
+        {/*<TextBase fontSize={12} textAlign="center" color="#747474" mt="8px">
           If the leaderboard does not exist, we will create one for you so you
           can invite others
-        </TextBase>
+        </TextBase>*/}
       </Column>
     </Column>
   );

@@ -73,7 +73,7 @@ const QuizTemplate = ({
         )}
 
         {isFinished && (
-          <Column width="100%" mt="15vh" center>
+          <Column width="100%" mt="5vh" center>
             <CompletedGameCard stats={stats} />
           </Column>
         )}
