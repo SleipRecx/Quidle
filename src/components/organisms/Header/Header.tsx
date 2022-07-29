@@ -18,6 +18,9 @@ const Header = () => {
     router.push("/practice");
   };
 
+  const showMenu = false;
+  const showSettings = false;
+
   const onPressPracticeMath = () => {
     router.push("/practice/math");
   };
@@ -37,14 +40,14 @@ const Header = () => {
       px="2vw"
     >
       <Row alignItems="center">
-        <FiMenu
+        {/*<FiMenu
           size={26}
           color="white"
           style={{
             marginRight: "1vw",
           }}
           onClick={() => setModalContent("gdpr ❤️")}
-        />
+        />*/}
         <AiOutlineQuestionCircle
           size={24}
           color="white"
@@ -66,11 +69,13 @@ const Header = () => {
           }}
         />
 
-        <IoMdSettings
-          size={24}
-          color="white"
-          onClick={() => setModalContent("settings")}
-        />
+        {showSettings && (
+          <IoMdSettings
+            size={24}
+            color="white"
+            onClick={() => setModalContent("settings")}
+          />
+        )}
       </Row>
       <Modal
         isOpen={modalContent !== undefined}
@@ -96,6 +101,17 @@ const Header = () => {
           <Column>
             You can add your score to as many leaderboards as you want. Feel
             free to create leaderboards and share them with your friends.
+            <Column mt="20px" mb="20px">
+              <TextBase fontSize={12}>
+                Feel free to practice. Practice is good. Good is great. You are
+                great.
+              </TextBase>
+            </Column>
+            <Column my="10px">
+              <Button onClick={onPressPracticeTrivia} style={{}}>
+                Practice quiz
+              </Button>
+            </Column>
           </Column>
         )}
         {modalContent === "question" && (
