@@ -99,12 +99,10 @@ const Header = () => {
         )}
         {modalContent === "leaderboard" && (
           <Column>
-            You can add your score to as many leaderboards as you want. Feel
-            free to create leaderboards and share them with your friends.
+            You can view leaderboards after you finish a quiz.
             <Column mt="20px" mb="20px">
               <TextBase fontSize={12}>
-                Feel free to practice. Practice is good. Good is great. You are
-                great.
+                Feel free to practice some basic quiz questions
               </TextBase>
             </Column>
             <Column my="10px">
