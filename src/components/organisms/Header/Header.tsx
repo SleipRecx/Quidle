@@ -90,16 +90,6 @@ const Header = () => {
                 Practice quiz
               </Button>
             </Column>
-            <Column my="10px">
-              <Button
-                onClick={onPressPracticeMath}
-                style={{
-                  backgroundColor: "#F09A00",
-                }}
-              >
-                Practice math
-              </Button>
-            </Column>
           </>
         )}
         {modalContent === "leaderboard" && (
