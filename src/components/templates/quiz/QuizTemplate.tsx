@@ -57,6 +57,14 @@ const QuizTemplate = ({
           </Column>
         </Float>
       )}
+      {isStarted && !question && (
+        <Column center px={"5vw"} height={"35vh"}>
+          <H1 textAlign="center">
+            You were quick 💨 There are no more questions today, and you still
+            have to wait the remaining time of 60 seconds to view your score!
+          </H1>
+        </Column>
+      )}
 
       {!isFinished && question && isStarted && (
         <Wrapper>
