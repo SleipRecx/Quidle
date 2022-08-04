@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Column } from "src/components/atoms/layout";
 import AnswerCard from "src/components/molecules/AnswerCard/AnswerCard";
+import SkipCard from "src/components/molecules/SkipCard/SkipCard";
 import { QuestionCardProps } from "./types";
 
 const QuestionCard = ({ question, onPressAnswer }: QuestionCardProps) => {
@@ -28,6 +29,7 @@ const QuestionCard = ({ question, onPressAnswer }: QuestionCardProps) => {
           />
         );
       })}
+      <SkipCard onPress={() => onPress("skip")} />
     </Column>
   );
 };

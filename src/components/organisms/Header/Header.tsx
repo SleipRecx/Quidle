@@ -1,5 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import CountUp from "react-countup";
+import toast from "react-hot-toast";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { FiMenu } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
@@ -10,8 +12,14 @@ import Modal from "src/components/atoms/modals/Modal";
 import { P, TextBase } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
 import useGroupId from "src/hooks/useGroupId";
+import { Stats } from "src/models/client/questions/types";
 import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
-const Header = () => {
+
+export type HeaderProps = {
+  showPoints: boolean;
+  stats: Stats;
+};
+const Header = ({ showPoints, stats }: HeaderProps) => {
   const router = useRouter();
 
   const onPressPracticeTrivia = () => {
@@ -21,14 +29,19 @@ const Header = () => {
   const showMenu = false;
   const showSettings = false;
 
-  const onPressPracticeMath = () => {
-    router.push("/practice/math");
-  };
   const [modalContent, setModalContent] = React.useState<
     "settings" | "leaderboard" | "question" | "gdpr ❤️" | undefined
   >(undefined);
 
   const groupId = useGroupId();
+
+  /*
+stats.lastPoints < stats.points
+                    ? "#00ff00"
+                    : stats.lastPoints > stats.points
+                    ? "#ff0033"
+                    : "white"
+  */
 
   return (
     <Row
@@ -48,26 +61,59 @@ const Header = () => {
           }}
           onClick={() => setModalContent("gdpr ❤️")}
         />*/}
-        <AiOutlineQuestionCircle
-          size={24}
-          color="white"
-          onClick={() => setModalContent("question")}
-        />
+        {!showPoints && (
+          <AiOutlineQuestionCircle
+            size={24}
+            color="white"
+            onClick={() => setModalContent("question")}
+          />
+        )}
       </Row>
       <Column>
         <TextBase bold fontSize={30}>
-          {groupId ? groupId : APP_NAME}
+          {showPoints ? (
+            <div
+              style={{
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              <CountUp end={stats.points} duration={0.2} />
+              <div
+                style={{
+                  height: 12,
+                  color:
+                    stats.lastPoints < stats.points
+                      ? "#00ff00"
+                      : stats.lastPoints > stats.points
+                      ? "#ff0033"
+                      : "white",
+                  fontSize: 10,
+                }}
+              >
+                {stats.lastPoints < stats.points
+                  ? `+ ${stats.points - stats.lastPoints}`
+                  : stats.lastPoints > stats.points
+                  ? `- ${stats.lastPoints - stats.points}`
+                  : ""}
+              </div>
+            </div>
+          ) : (
+            APP_NAME
+          )}
         </TextBase>
       </Column>
       <Row alignItems="center">
-        <MdOutlineLeaderboard
-          size={24}
-          color="white"
-          onClick={() => setModalContent("leaderboard")}
-          style={{
-            marginRight: "1vw",
-          }}
-        />
+        {!showPoints && (
+          <MdOutlineLeaderboard
+            size={24}
+            color="white"
+            onClick={() => setModalContent("leaderboard")}
+            style={{
+              marginRight: "1vw",
+            }}
+          />
+        )}
 
         {showSettings && (
           <IoMdSettings

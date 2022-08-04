@@ -10,4 +10,5 @@ export type Stats = {
   wrongAnswerCount: number;
   questionsCount: number;
   points: number;
+  lastPoints: number;
 };

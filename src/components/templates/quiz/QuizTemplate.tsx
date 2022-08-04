@@ -30,7 +30,7 @@ const QuizTemplate = ({
       color="white"
       loading={loading}
     >
-      <Header />
+      <Header showPoints={isStarted && !isFinished} stats={stats} />
 
       {!isStarted && !isFinished && (
         <Column

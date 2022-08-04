@@ -12,6 +12,7 @@ import { HomePageProps } from "./types";
 const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
+  const [unableToPressAnswer, setUnableToPressAnswer] = useState(false);
   const [name, setName] = useState("");
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
     new Date().getTime()
@@ -22,25 +23,20 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     questionsCount: 0,
     wrongAnswerCount: 0,
     points: 0,
+    lastPoints: 0,
   });
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
   const handleCorrectAnswer = (question: TriviaQuestion, answer: string) => {
     // This part is for Kahoot scoring
-    const questionTime = 10;
-    const responseTime =
-      new Date().getTime() / 1000 - lastQuestionAnsweredTime / 1000;
-    const maxPoints = 1000;
 
-    const mPoints = Math.floor(
-      (1 - (responseTime * 0.5) / questionTime) * maxPoints
-    );
     setStats({
       ...stats,
       correctAnswerCount: stats.correctAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
-      points: (mPoints > 0 ? mPoints : 0) + stats.points,
+      points: 1000 + stats.points,
+      lastPoints: stats.points,
     });
   };
 
@@ -49,18 +45,35 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       ...stats,
       wrongAnswerCount: stats.wrongAnswerCount + 1,
       questionsCount: stats.questionsCount + 1,
+      points: stats.points - 500,
+      lastPoints: stats.points,
     });
   };
 
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
-    if (question.correctAnswer === answer)
-      handleCorrectAnswer(question, answer);
-    else handleWrongAnswer(question, answer);
-
-    setTimeout(() => {
-      setLastQuestionAnsweredTime(new Date().getTime());
+    if (unableToPressAnswer) return;
+    if (answer === "skip") {
+      setStats({
+        ...stats,
+        questionsCount: stats.questionsCount + 1,
+        points: stats.points,
+        lastPoints: stats.points,
+      });
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }, 600);
+      setLastQuestionAnsweredTime(new Date().getTime());
+    } else {
+      setUnableToPressAnswer(true);
+      if (question.correctAnswer === answer)
+        handleCorrectAnswer(question, answer);
+      else handleWrongAnswer(question, answer);
+
+      setTimeout(() => {
+        setUnableToPressAnswer(false);
+
+        setLastQuestionAnsweredTime(new Date().getTime());
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      }, 600);
+    }
   };
 
   const onTimeComplete = useCallback(() => {
@@ -74,12 +87,10 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
 
   const onPressPlay = () => {
     if (name.length === 0) {
-      toast.error(
-        `Add your nickname so we can compare your score with others`,
-        {
-          position: "bottom-center",
-        }
-      );
+      toast(`You need a name so we can show others that you beat them`, {
+        position: "bottom-center",
+        icon: "😏",
+      });
       return;
     }
     setIsStarted(true);
