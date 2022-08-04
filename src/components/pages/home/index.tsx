@@ -10,7 +10,6 @@ import { getTodaysDate } from "src/utils/time";
 import { HomePageProps } from "./types";
 
 const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
-  const groupId = useGroupId();
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [name, setName] = useState("");
@@ -74,9 +73,9 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       : undefined;
 
   const onPressPlay = () => {
-    if (groupId && name.length === 0) {
+    if (name.length === 0) {
       toast.error(
-        `Add your nickname so we can add your score to the ${groupId} leaderboard`,
+        `Add your nickname so we can compare your score with others`,
         {
           position: "bottom-center",
         }
@@ -92,18 +91,15 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         `quiz-results-${getTodaysDate()}`,
         JSON.stringify(stats)
       );
-      if (groupId) {
-        _firebaseService.add<Highscore>("highscores", {
-          createdAt: new Date().getTime(),
-          date: getTodaysDate(),
-          stats: stats,
-          points: stats.points,
-          groupId: groupId,
-          name: name,
-        });
-      }
+      _firebaseService.add<Highscore>("highscores", {
+        createdAt: new Date().getTime(),
+        date: getTodaysDate(),
+        stats: stats,
+        points: stats.points,
+        name: name,
+      });
     }
-  }, [stats, name, groupId]);
+  }, [stats, name]);
 
   useEffect(() => {
     if (isFinished) {
@@ -120,7 +116,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       stats={localStorageStats || stats}
       isFinished={isFinished || !!localStorageStats}
       isStarted={isStarted}
-      setName={groupId ? setName : undefined}
+      setName={setName}
       name={name}
       loading={loading}
     />

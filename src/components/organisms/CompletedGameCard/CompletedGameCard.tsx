@@ -16,74 +16,10 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { DOMAIN } from "src/constants/app";
 
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
-  const groupId = useGroupId();
   const [maxHeight, setMaxHeight] = useState(0);
   const localStorageName = localStorage.getItem("name");
 
-  const [name, setName] = useState(localStorageName);
   const [highscores, setHighscores] = useState<Highscore[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [showInput, setShowInput] = useState(
-    localStorage.getItem(`highscore-submitted-${getTodaysDate()}`) !== "yes"
-  );
-
-  const addScore = async () => {
-    try {
-      if (name.length === 0) {
-        toast.error("Write in a name so other users can see who you are");
-        return;
-      }
-      setLoading(true);
-      await _firebaseService.add<Highscore>("highscores", {
-        createdAt: new Date().getTime(),
-        date: getTodaysDate(),
-        stats: stats,
-        points: stats.points,
-        groupId: groupId ? groupId.toLowerCase() : null,
-        name: name,
-      });
-      localStorage.setItem("name", name);
-
-      setName("");
-      if (groupId) {
-        fetchHighscores(groupId);
-      } else {
-        fetchOverallHighscores();
-      }
-    } catch (error) {
-      toast.error("Something went wrong " + JSON.stringify(error));
-      console.log("error", error);
-    } finally {
-      setShowInput(false);
-      localStorage.setItem(`highscore-submitted-${getTodaysDate()}`, "yes");
-      setLoading(false);
-    }
-  };
-
-  const onChangeName = (text: string) => {
-    setName(text);
-  };
-
-  const fetchHighscores = async (mGroupId: string) => {
-    // TODO: FETCH HIGHSCORES HERE AND RENDER THEM
-    console.log("fetch");
-    try {
-      const mHighscores = await _firebaseService.getQueriedCollection<Highscore>(
-        "highscores",
-        [
-          ["groupId", "==", mGroupId],
-          ["date", "==", getTodaysDate()],
-        ]
-      );
-      const sortedHighscores = mHighscores.sort(
-        (highscoreA, highscoreB) => highscoreB.points - highscoreA.points
-      );
-      setHighscores(sortedHighscores);
-      console.log("highscores", highscores);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
 
   const fetchOverallHighscores = async () => {
     try {
@@ -101,20 +37,12 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   };
 
   useEffect(() => {
-    if (!!groupId && highscores.length === 0) {
-      setTimeout(() => {
-        // TODO: delay as we want to add our score to the leaderboard first
-        // Should be changed with a listener
-        fetchHighscores(groupId);
-      }, 500);
-    } else {
-      setTimeout(() => {
-        // TODO: delay as we want to add our score to the leaderboard first
-        // Should be changed with a listener
-        fetchOverallHighscores();
-      }, 500);
-    }
-  }, [groupId]);
+    setTimeout(() => {
+      // TODO: delay as we want to add our score to the leaderboard first
+      // Should be changed with a listener
+      fetchOverallHighscores();
+    }, 500);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -198,33 +126,10 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         You got <CountUp end={stats.points} duration={1.5} /> points
           </H2>*/}
 
-      {showInput && (
-        <Column mb="5px" mt="30px">
-          <Input
-            placeholder="Your nickname"
-            onChangeText={onChangeName}
-            value={name}
-          />
-        </Column>
-      )}
-      {showInput && (
-        <Column mb="5px">
-          <Button
-            loading={loading}
-            onClick={addScore}
-            style={{
-              marginBottom: 10,
-              background: "orange",
-            }}
-          >
-            {`Add score`}
-          </Button>
-        </Column>
-      )}
       {highscores.length > 0 && (
         <Column mt="10vh">
           <H1 textAlign="center" mb="3vh">
-            {groupId ? groupId.toLowerCase() : "Today's highscore 🏆"}
+            Today&apos;s highscore 🏆
           </H1>
           <Column mb="40px">
             {highscores.map((highscore, index) => {
@@ -239,11 +144,9 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           </Column>
 
           <CopyToClipboard
-            text={
-              groupId ? `https://${DOMAIN}/${groupId}` : `https://${DOMAIN}`
-            }
+            text={`https://${DOMAIN}`}
             onCopy={() =>
-              toast.success("Copied link to clipboard", {
+              toast.success("www.quidle.today is copied to your clipboard", {
                 position: "bottom-center",
               })
             }
@@ -254,26 +157,11 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
                 background: "green",
               }}
             >
-              Invite others
+              Invite others to play Quidle
             </Button>
           </CopyToClipboard>
         </Column>
       )}
-
-      <Column mt={"20vh"} mb="3vh">
-        {/*<Column mb="10px">
-          <Input
-            placeholder="Name of leaderboard"
-            onChangeText={onChangeLeaderboardText}
-            value={leaderboardName}
-          />
-          </Column>*/}
-
-        {/*<TextBase fontSize={12} textAlign="center" color="#747474" mt="8px">
-          If the leaderboard does not exist, we will create one for you so you
-          can invite others
-        </TextBase>*/}
-      </Column>
     </Column>
   );
 };
