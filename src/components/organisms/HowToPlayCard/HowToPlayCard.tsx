@@ -25,7 +25,7 @@ const HowToPlayCard = ({
           <P textAlign="center">⏳</P>
         </Column>
         <Column flex={1}>
-          <P>Answer as many questions as possible within 60 seconds</P>
+          <P>15 quiz questions in 60 seconds</P>
         </Column>
       </Row>
 
@@ -34,19 +34,25 @@ const HowToPlayCard = ({
           <P textAlign="center">🏆</P>
         </Column>
         <Column flex={1}>
-          <P>Compare your highscore with friends and others</P>
+          <P>Correct answer = 1000 points</P>
         </Column>
       </Row>
-      {moreExplanation && (
-        <Row mb="10px">
-          <Column width={40} alignItems="center">
-            <P textAlign="center">🟥</P>
-          </Column>
-          <Column flex={1}>
-            <P>We are using the same scoring algorithm as Kahoot</P>
-          </Column>
-        </Row>
-      )}
+      <Row mb="10px">
+        <Column width={40} alignItems="center">
+          <P textAlign="center">😭</P>
+        </Column>
+        <Column flex={1}>
+          <P>Wrong answer = -500 points</P>
+        </Column>
+      </Row>
+      <Row mb="10px">
+        <Column width={40} alignItems="center">
+          <P textAlign="center">🫡</P>
+        </Column>
+        <Column flex={1}>
+          <P>Pass question = 0 points</P>
+        </Column>
+      </Row>
       {moreExplanation && (
         <Row mb="10px">
           <Column width={40} alignItems="center">
