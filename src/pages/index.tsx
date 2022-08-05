@@ -1,12 +1,8 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import TriviaAPI from "src/api/trivia";
+import React from "react";
 import HomePage from "src/components/pages/home";
 import useQuestions from "src/hooks/useQuestions";
-import { Stats, TriviaQuestion } from "src/models/client/questions/types";
-import { _firebaseService } from "src/services/firebaseService";
-import { getTodaysDate } from "src/utils/time";
+import { TriviaQuestion } from "src/models/client/questions/types";
 
 export interface DailyQuiz {
   questions: TriviaQuestion[];
@@ -22,7 +18,6 @@ export async function getServerSideProps() {
 
 const Home: NextPage = () => {
   const { loading, questions, localStorageStats } = useQuestions();
-  console.log("questions", questions);
 
   return (
     <HomePage

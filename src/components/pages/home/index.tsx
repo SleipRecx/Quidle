@@ -62,8 +62,11 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         points: stats.points,
         lastPoints: stats.points,
       });
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setLastQuestionAnsweredTime(new Date().getTime());
+      if (currentQuestionIndex === 14) setIsFinished(true);
+      else {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setLastQuestionAnsweredTime(new Date().getTime());
+      }
     } else {
       setUnableToPressAnswer(true);
       if (question.correctAnswer === answer)
@@ -72,12 +75,12 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
 
       setTimeout(() => {
         setUnableToPressAnswer(false);
+        if (currentQuestionIndex === 14) setIsFinished(true);
 
         setLastQuestionAnsweredTime(new Date().getTime());
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       }, 600);
     }
-    if (currentQuestionIndex === 14) setIsFinished(true);
   };
 
   const onTimeComplete = useCallback(() => {

@@ -72,6 +72,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         style={{
           display: "flex",
           flexDirection: "row",
+          alignItems: "center",
         }}
       >
         <div>
@@ -102,17 +103,16 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           <H2 my="3px">
             You got <CountUp end={stats.points} duration={1.5} /> points
           </H2>
-
-          <P>
-            You answered {stats.questionsCount} questions. You passed on{" "}
-            {stats.questionsCount -
-              stats.correctAnswerCount -
-              stats.wrongAnswerCount}{" "}
-            questions, answered {stats.wrongAnswerCount} wrong, and{" "}
-            {stats.correctAnswerCount} correctly 🍻
-          </P>
         </div>
       </div>
+      <P>
+        You answered {stats.correctAnswerCount} questions correctly,{" "}
+        {stats.wrongAnswerCount} wrong, and passed on{" "}
+        {stats.questionsCount -
+          stats.correctAnswerCount -
+          stats.wrongAnswerCount}{" "}
+        out of {stats.questionsCount} questions in total.
+      </P>
 
       <div
         style={{
@@ -124,8 +124,8 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
         }}
       ></div>
 
-      <P textAlign="left">Next Quidle</P>
-      <H2 textAlign="left">
+      <P textAlign="center">Next Quidle</P>
+      <H2 textAlign="center">
         <Countdown date={tomorrow} renderer={dateRenderer} />
       </H2>
       {/*<H2 textAlign="center" my="3vh">
