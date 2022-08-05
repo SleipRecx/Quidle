@@ -24,7 +24,7 @@ const PracticeQuizPage = () => {
   };
 
   const getQuestions = useCallback(async () => {
-    const questionsResult = await TriviaAPI.getTriviaQuestions();
+    const questionsResult = await TriviaAPI.getTriviaQuestions("medium", 10);
     questionsResult.match(handleQuestions, handleError);
   }, []);
 
