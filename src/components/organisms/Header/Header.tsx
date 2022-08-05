@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import toast from "react-hot-toast";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
@@ -9,11 +9,13 @@ import { MdOutlineLeaderboard } from "react-icons/md";
 import Button from "src/components/atoms/buttons/Button";
 import { Column, Row } from "src/components/atoms/layout";
 import Modal from "src/components/atoms/modals/Modal";
-import { P, TextBase } from "src/components/atoms/typography";
+import { H4, P, TextBase } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
 import useGroupId from "src/hooks/useGroupId";
 import { Stats } from "src/models/client/questions/types";
 import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
+import Lottie from "react-lottie";
+import * as animationData from "../../../../public/static/animations/curious.json";
 
 export type HeaderProps = {
   showPoints: boolean;
@@ -26,22 +28,26 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
     router.push("/practice");
   };
 
+  const [color, setColor] = useState("white");
+
   const showMenu = false;
   const showSettings = false;
 
   const [modalContent, setModalContent] = React.useState<
-    "settings" | "leaderboard" | "question" | "gdpr ❤️" | undefined
+    "settings" | "leaderboard" | "How to Quidle" | "gdpr ❤️" | undefined
   >(undefined);
 
   const groupId = useGroupId();
 
-  /*
-stats.lastPoints < stats.points
-                    ? "#00ff00"
-                    : stats.lastPoints > stats.points
-                    ? "#ff0033"
-                    : "white"
-  */
+  useEffect(() => {
+    if (stats.lastPoints < stats.points) setColor("#00ff00");
+    if (stats.lastPoints > stats.points) setColor("#ff0033");
+    if (stats.lastPoints === stats.points) setColor("white");
+
+    setTimeout(() => {
+      setColor("white");
+    }, 600);
+  }, [stats]);
 
   return (
     <Row
@@ -65,7 +71,7 @@ stats.lastPoints < stats.points
           <AiOutlineQuestionCircle
             size={24}
             color="white"
-            onClick={() => setModalContent("question")}
+            onClick={() => setModalContent("How to Quidle")}
           />
         )}
       </Row>
@@ -76,10 +82,24 @@ stats.lastPoints < stats.points
               style={{
                 color: "white",
                 textAlign: "center",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
               }}
             >
-              <CountUp end={stats.points} duration={0.2} />
               <div
+                style={{
+                  fontSize: 30,
+                  color: color,
+                }}
+              >
+                <CountUp
+                  end={stats.points}
+                  duration={0.6}
+                  start={stats.lastPoints}
+                />
+              </div>
+              {/*<div
                 style={{
                   height: 12,
                   color:
@@ -96,15 +116,15 @@ stats.lastPoints < stats.points
                   : stats.lastPoints > stats.points
                   ? `- ${stats.lastPoints - stats.points}`
                   : ""}
-              </div>
+                </div>*/}
             </div>
           ) : (
             APP_NAME
           )}
         </TextBase>
       </Column>
-      <Row alignItems="center">
-        {!showPoints && (
+      <Row alignItems="center" width={24}>
+        {!showPoints && false && (
           <MdOutlineLeaderboard
             size={24}
             color="white"
@@ -128,6 +148,23 @@ stats.lastPoints < stats.points
         onClose={() => setModalContent(undefined)}
         title={modalContent}
       >
+        <div
+          style={{
+            marginTop: 20,
+          }}
+        >
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: animationData,
+            }}
+            height={100}
+          />
+        </div>
+        <Column fullWidth center mt="20px" mb="20px">
+          <H4 bold>How to Quidle</H4>
+        </Column>
         {modalContent === "settings" && (
           <>
             <Column mt="20px" mb="20px">
@@ -143,32 +180,10 @@ stats.lastPoints < stats.points
             </Column>
           </>
         )}
-        {modalContent === "leaderboard" && (
+
+        {modalContent === "How to Quidle" && (
           <Column>
-            You can view leaderboards after you finish a quiz.
-            <Column mt="20px" mb="20px">
-              <TextBase fontSize={12}>
-                Feel free to practice some basic quiz questions
-              </TextBase>
-            </Column>
-            <Column my="10px">
-              <Button onClick={onPressPracticeTrivia} style={{}}>
-                Practice quiz
-              </Button>
-            </Column>
-          </Column>
-        )}
-        {modalContent === "question" && (
-          <Column mt="30px">
             <HowToPlayCard moreExplanation name="" />
-          </Column>
-        )}
-        {modalContent === "gdpr ❤️" && (
-          <Column mt="30px" center>
-            <P>
-              We respect your privacy policy, and are not storing any
-              information about.
-            </P>
           </Column>
         )}
       </Modal>

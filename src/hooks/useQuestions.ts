@@ -17,14 +17,10 @@ const useQuestions = () => {
   );
 
   const fetchTodaysQuestion = async () => {
-    console.log("getTodaysDate", getTodaysDate());
     try {
-      console.log("getTodaysDate", getTodaysDate());
-
       const hasStartedTodaysQuiz = localStorage.getItem(
         `quiz-results-${getTodaysDate()}`
       );
-      console.log("hasStartedTodaysQuiz", !!hasStartedTodaysQuiz);
       if (!!hasStartedTodaysQuiz) {
         setLocalStorageStats(JSON.parse(hasStartedTodaysQuiz) as Stats);
         return;
@@ -33,25 +29,61 @@ const useQuestions = () => {
         `dailyQuiz/${getTodaysDate()}`
       );
       if (doc) {
-        console.log("we have doc");
         setTodaysQuestions(doc.questions);
 
         return doc;
       } else {
         console.log("getting questions");
-        let questions: TriviaQuestion[] = [];
-        while (questions.length < 30) {
-          console.log("questions.length");
-          const questionsResult = await TriviaAPI.getTriviaQuestions();
+        let easyQuestions: TriviaQuestion[] = [];
+        let mediumQuestions: TriviaQuestion[] = [];
+        let hardQuestions: TriviaQuestion[] = [];
+        while (easyQuestions.length < 8) {
+          const questionsResult = await TriviaAPI.getTriviaQuestions(
+            "easy",
+            20
+          );
           const newQuestions = questionsResult._unsafeUnwrap();
           const filteredNewQuestions = newQuestions.filter(
             (q) =>
-              q.question.length < 80 &&
-              q.allAnswers.filter((answer) => answer.length < 45).length ===
+              q.question.length < 100 &&
+              q.allAnswers.filter((answer) => answer.length < 70).length ===
                 q.allAnswers.length
           );
-          questions = questions.concat(filteredNewQuestions);
+          easyQuestions = easyQuestions.concat(filteredNewQuestions);
         }
+        while (mediumQuestions.length < 5) {
+          const questionsResult = await TriviaAPI.getTriviaQuestions(
+            "medium",
+            10
+          );
+          const newQuestions = questionsResult._unsafeUnwrap();
+          const filteredNewQuestions = newQuestions.filter(
+            (q) =>
+              q.question.length < 100 &&
+              q.allAnswers.filter((answer) => answer.length < 70).length ===
+                q.allAnswers.length
+          );
+          mediumQuestions = mediumQuestions.concat(filteredNewQuestions);
+        }
+        while (hardQuestions.length < 1) {
+          const questionsResult = await TriviaAPI.getTriviaQuestions(
+            "medium",
+            5
+          );
+          const newQuestions = questionsResult._unsafeUnwrap();
+          const filteredNewQuestions = newQuestions.filter(
+            (q) =>
+              q.question.length < 100 &&
+              q.allAnswers.filter((answer) => answer.length < 70).length ===
+                q.allAnswers.length
+          );
+          hardQuestions = hardQuestions.concat(filteredNewQuestions);
+        }
+        const questions = easyQuestions
+          .slice(0, 8)
+          .concat(
+            mediumQuestions.slice(0, 5).concat(hardQuestions.slice(0, 2))
+          );
         _firebaseService.set<DailyQuiz>(`dailyQuiz/${getTodaysDate()}`, {
           questions: questions,
           createdAt: new Date().getTime(),

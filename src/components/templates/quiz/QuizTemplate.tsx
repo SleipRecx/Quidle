@@ -8,6 +8,7 @@ import HowToPlayCard from "src/components/organisms/HowToPlayCard/HowToPlayCard"
 import QuestionCard from "src/components/organisms/QuestionCard/QuestionCard";
 import { Wrapper } from "./QuizTemplate.styled";
 import { QuizTemplateProps } from "./types";
+
 const QuizTemplate = ({
   question,
   onPressAnswer,
@@ -37,7 +38,7 @@ const QuizTemplate = ({
           width="100vw"
           height="100%"
           alignItems="center"
-          marginTop="20vh"
+          marginTop="10vh"
         >
           <Column>
             <HowToPlayCard
@@ -57,14 +58,14 @@ const QuizTemplate = ({
           </Column>
         </Float>
       )}
-      {isStarted && !question && (
+      {/*isStarted && !question && (
         <Column center px={"5vw"} height={"35vh"}>
           <H1 textAlign="center">
             You were quick 💨 There are no more questions today, and you still
             have to wait the remaining time of 60 seconds to view your score!
           </H1>
         </Column>
-      )}
+      )*/}
 
       {!isFinished && question && isStarted && (
         <Wrapper>

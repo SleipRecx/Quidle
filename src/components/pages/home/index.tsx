@@ -1,8 +1,6 @@
-import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import QuizTemplate from "src/components/templates/quiz/QuizTemplate";
-import useGroupId from "src/hooks/useGroupId";
 import { Highscore } from "src/models/client/highscores/types";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 import { _firebaseService } from "src/services/firebaseService";
@@ -13,6 +11,11 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [unableToPressAnswer, setUnableToPressAnswer] = useState(false);
+
+  useEffect(() => {
+    const localStorageName = localStorage.getItem("name");
+    if (!!localStorageName) setName(localStorageName);
+  }, []);
   const [name, setName] = useState("");
   const [lastQuestionAnsweredTime, setLastQuestionAnsweredTime] = useState(
     new Date().getTime()
@@ -74,6 +77,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       }, 600);
     }
+    if (currentQuestionIndex === 14) setIsFinished(true);
   };
 
   const onTimeComplete = useCallback(() => {
@@ -93,6 +97,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       });
       return;
     }
+    localStorage.setItem("name", name);
     setIsStarted(true);
   };
 

@@ -2,10 +2,11 @@ import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
 import Lottie from "react-lottie";
+import * as animationData from "../../../public/static/animations/success.json";
+
 import Button from "src/components/atoms/buttons/Button";
 import Input from "src/components/atoms/inputs/Input";
 import { Column } from "src/components/atoms/layout";
-import * as animationData from "../../../public/static/animations/success.json";
 
 const StorybookPage = () => {
   return (

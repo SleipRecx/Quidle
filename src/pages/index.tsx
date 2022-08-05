@@ -22,6 +22,7 @@ export async function getServerSideProps() {
 
 const Home: NextPage = () => {
   const { loading, questions, localStorageStats } = useQuestions();
+  console.log("questions", questions);
 
   return (
     <HomePage

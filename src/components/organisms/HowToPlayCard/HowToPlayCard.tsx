@@ -12,47 +12,46 @@ const HowToPlayCard = ({
   name,
 }: HowToPlayCardProps) => {
   return (
-    <Column fullWidth maxWidth="500px" px="5vw">
-      {onPressPlay && (
+    <Column fullWidth width="100%" px="6vw">
+      {!moreExplanation && (
         <Column center mb="5vh">
           <H4 textAlign="center" color="#898989">
-            HOW TO PLAY
+            Hi 👋
           </H4>
         </Column>
       )}
+
       <Row mb="10px">
         <Column width={"40px"} alignItems="center">
-          <P textAlign="center">⏳</P>
+          <P textAlign="center">🏆</P>
         </Column>
         <Column flex={1}>
           <P>15 quiz questions in 60 seconds</P>
         </Column>
       </Row>
+      <Row mb="10px">
+        <Column width={"40px"} alignItems="center">
+          <P textAlign="center">🧑‍🏫</P>
+        </Column>
+        <Column flex={1}>
+          <P>Answer correctly (1000p), wrong (-500p) or pass (0p)</P>
+        </Column>
+      </Row>
 
-      <Row mb="10px">
-        <Column width={40} alignItems="center">
-          <P textAlign="center">🏆</P>
-        </Column>
-        <Column flex={1}>
-          <P>Correct answer = 1000 points</P>
-        </Column>
-      </Row>
-      <Row mb="10px">
-        <Column width={40} alignItems="center">
-          <P textAlign="center">😭</P>
-        </Column>
-        <Column flex={1}>
-          <P>Wrong answer = -500 points</P>
-        </Column>
-      </Row>
-      <Row mb="10px">
-        <Column width={40} alignItems="center">
-          <P textAlign="center">🫡</P>
-        </Column>
-        <Column flex={1}>
-          <P>Pass question = 0 points</P>
-        </Column>
-      </Row>
+      {moreExplanation && (
+        <Row mb="10px">
+          <Column width={40} alignItems="center">
+            <P textAlign="center">🏆</P>
+          </Column>
+          <Column flex={1}>
+            <P>
+              A correct answer gives 1000 points, a wrong answer takes 500
+              points from you, and a pass is a pass
+            </P>
+          </Column>
+        </Row>
+      )}
+
       {moreExplanation && (
         <Row mb="10px">
           <Column width={40} alignItems="center">

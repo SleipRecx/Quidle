@@ -13,8 +13,9 @@ const customStyles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    minWidth: "20vw",
-    maxWidth: 300,
+    minWidth: 200,
+    maxWidth: "90vw",
+    width: "100%",
     transform: "translate(-50%, -50%)",
     //backgroundColor: "rgba(0,0,0,0.5)",
     backgroundColor: "#121213",
@@ -45,9 +46,7 @@ const Modal = ({ onClose, isOpen, children, title }: ModalProps) => {
       <Float top={"5px"} right={"5px"}>
         <IoMdClose size={24} onClick={closeModal} />
       </Float>
-      <Column fullWidth center>
-        <H4>{title?.toUpperCase()}</H4>
-      </Column>
+
       {children}
     </ReactModal>
   );

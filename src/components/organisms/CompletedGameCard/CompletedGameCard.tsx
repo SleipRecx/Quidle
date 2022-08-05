@@ -1,19 +1,23 @@
-import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
+import Lottie from "react-lottie";
 import Button from "src/components/atoms/buttons/Button";
-import Input from "src/components/atoms/inputs/Input";
 import { Column, Row } from "src/components/atoms/layout";
-import { H1, H2, H3, P, TextBase } from "src/components/atoms/typography";
+import { H1, H2, P } from "src/components/atoms/typography";
 import Confetti from "src/components/molecules/Confetti/Confetti";
 import CountUp from "src/components/molecules/CountUp/CountUp";
-import useGroupId from "src/hooks/useGroupId";
+import { DOMAIN } from "src/constants/app";
 import { Highscore } from "src/models/client/highscores/types";
 import { _firebaseService } from "src/services/firebaseService";
 import { getTodaysDate } from "src/utils/time";
+import * as sad from "../../../../public/static/animations/drenched-horse.json";
+import * as ok from "../../../../public/static/animations/curious.json";
+import * as relax from "../../../../public/static/animations/relax.json";
+import * as happy from "../../../../public/static/animations/singing-horse.json";
+import * as smiling from "../../../../public/static/animations/smiling-horse.json";
 import { CompletedGameCardProps } from "./types";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { DOMAIN } from "src/constants/app";
+import Countdown from "react-countdown";
 
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const [maxHeight, setMaxHeight] = useState(0);
@@ -49,85 +53,97 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
       setMaxHeight(120);
     }, 100);
   }, []);
+
+  const dateRenderer = ({ hours, minutes, seconds, completed }) => {
+    return (
+      <span>
+        {hours}:{minutes}:{seconds}
+      </span>
+    );
+  };
+
+  const tomorrow = new Date();
+  tomorrow.setHours(24, 0, 0, 0);
   return (
-    <Column fullWidth mx={"10vw"}>
+    <Column fullWidth mx={"10vw"} mt="3vh">
       <Confetti />
 
-      <Row
-        fullWidth
-        justifyContent="space-between"
-        height={maxHeight + 100}
-        alignItems="flex-end"
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
       >
-        <Column flex={1} mx={10}>
-          <P textAlign="center">{stats.points}</P>
+        <div>
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData:
+                stats.points > 10000
+                  ? smiling
+                  : stats.points > 4000
+                  ? happy
+                  : stats.points > 0
+                  ? relax
+                  : stats.points === 0
+                  ? relax
+                  : sad,
+            }}
+            height={100}
+          />
+        </div>
+        <div
+          style={{
+            width: "100%",
+            marginLeft: "20px",
+          }}
+        >
+          <H2 my="3px">
+            You got <CountUp end={stats.points} duration={1.5} /> points
+          </H2>
 
-          <div
-            style={{
-              transition: "height 1s ease",
-              height: maxHeight,
-              backgroundColor: "#9F66FF",
-              width: "100%",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: 1,
-              marginTop: 5,
-              backgroundColor: "#333333",
-            }}
-          >
-            <P textAlign="center">Points</P>
-          </div>
-        </Column>
-        <Column flex={1}>
-          <P textAlign="center">{stats.correctAnswerCount}</P>
+          <P>
+            You answered {stats.questionsCount} questions. You passed on{" "}
+            {stats.questionsCount -
+              stats.correctAnswerCount -
+              stats.wrongAnswerCount}{" "}
+            questions, answered {stats.wrongAnswerCount} wrong, and{" "}
+            {stats.correctAnswerCount} correctly 🍻
+          </P>
+        </div>
+      </div>
 
-          <div
-            style={{
-              transition: "height 1s ease",
-              height:
-                (maxHeight * stats.correctAnswerCount) / stats.questionsCount,
-              backgroundColor: "#00ff00",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: 1,
-              marginTop: 5,
-              backgroundColor: "#333333",
-            }}
-          >
-            <P textAlign="center">✅</P>
-          </div>
-        </Column>
-        <Column flex={1} mx={10}>
-          <P textAlign="center">{stats.wrongAnswerCount}</P>
-          <div
-            style={{
-              transition: "height 1s ease",
-              height:
-                (maxHeight * stats.wrongAnswerCount) / stats.questionsCount,
-              backgroundColor: "#ff0033",
-            }}
-          ></div>
-          <div
-            style={{
-              flex: 1,
-              marginTop: 5,
-              backgroundColor: "#333333",
-            }}
-          >
-            <P textAlign="center">❌</P>
-          </div>
-        </Column>
-      </Row>
+      <div
+        style={{
+          height: 1,
+          marginTop: 20,
+          marginBottom: 20,
+          width: "100%",
+          backgroundColor: "#3a3a3c",
+        }}
+      ></div>
+
+      <P textAlign="left">Next Quidle</P>
+      <H2 textAlign="left">
+        <Countdown date={tomorrow} renderer={dateRenderer} />
+      </H2>
       {/*<H2 textAlign="center" my="3vh">
         You got <CountUp end={stats.points} duration={1.5} /> points
           </H2>*/}
 
+      <div
+        style={{
+          height: 1,
+          marginTop: 20,
+          marginBottom: 20,
+          width: "100%",
+          backgroundColor: "#3a3a3c",
+        }}
+      ></div>
+
       {highscores.length > 0 && (
-        <Column mt="10vh">
+        <Column mt="20px">
           <H1 textAlign="center" mb="3vh">
             Today&apos;s highscore 🏆
           </H1>
@@ -136,7 +152,9 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               return (
                 <Row key={index} fullWidth>
                   <Column width={50}>{index + 1}.</Column>
-                  <Column width={100}>{highscore.points}</Column>
+                  <Column width={100}>
+                    <CountUp end={highscore.points} duration={0.6} />
+                  </Column>
                   <Column flex={1}>{highscore.name}</Column>
                 </Row>
               );

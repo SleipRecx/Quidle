@@ -12,5 +12,5 @@ export const StyledSkipCard = styled.div`
     cursor: pointer;
   }
 
-  border: 3px solid #5858f4;
+  border: 3px solid #242424;
 `;

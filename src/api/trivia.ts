@@ -4,31 +4,25 @@ import { TriviaQuestion } from "src/models/client/questions/types";
 import { shuffle } from "src/utils";
 
 class TriviaAPI {
-  static async getTriviaQuestions(): Promise<Result<TriviaQuestion[], Error>> {
+  static async getTriviaQuestions(
+    difficulty: "easy" | "medium" | "hard",
+    limit: number
+  ): Promise<Result<TriviaQuestion[], Error>> {
     try {
       const responseEasy = await fetch(
-        `${TRIVIA_API_URL}?limit=5&difficulty=easy`
+        `${TRIVIA_API_URL}?limit=${limit}&difficulty=${difficulty}`
       );
-      const responseJsonEasy = (await responseEasy.json()) as Partial<TriviaQuestion>[];
+      const questions = (await responseEasy.json()) as Partial<TriviaQuestion>[];
 
-      const responseMedium = await fetch(
-        `${TRIVIA_API_URL}?limit=5&difficulty=medium`
-      );
-      const responseJsonMedium = (await responseMedium.json()) as Partial<TriviaQuestion>[];
+      const parsedQuestions = questions.map((q) => ({
+        ...q,
+        allAnswers:
+          !!q.correctAnswer && !!q.incorrectAnswers
+            ? shuffle(q?.incorrectAnswers.slice(0, 3).concat(q?.correctAnswer))
+            : [],
+      })) as TriviaQuestion[];
 
-      const questions = responseJsonEasy
-        .concat(responseJsonMedium)
-        .map((q) => ({
-          ...q,
-          allAnswers:
-            !!q.correctAnswer && !!q.incorrectAnswers
-              ? shuffle(
-                  q?.incorrectAnswers.slice(0, 3).concat(q?.correctAnswer)
-                )
-              : [],
-        })) as TriviaQuestion[];
-
-      return okAsync(questions);
+      return okAsync(parsedQuestions);
     } catch (error) {
       return errAsync(
         new Error(
