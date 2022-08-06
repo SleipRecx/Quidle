@@ -14,7 +14,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     minWidth: 200,
-    maxWidth: "90vw",
+    maxWidth: 600,
     width: "100%",
     transform: "translate(-50%, -50%)",
     //backgroundColor: "rgba(0,0,0,0.5)",

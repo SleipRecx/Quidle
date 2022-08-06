@@ -1,21 +1,21 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import toast from "react-hot-toast";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { FiMenu } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
-import { MdOutlineLeaderboard } from "react-icons/md";
+import { MdSupportAgent } from "react-icons/md";
+import Lottie from "react-lottie";
 import Button from "src/components/atoms/buttons/Button";
 import { Column, Row } from "src/components/atoms/layout";
 import Modal from "src/components/atoms/modals/Modal";
-import { H4, P, TextBase } from "src/components/atoms/typography";
+import { H4, TextBase } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
 import useGroupId from "src/hooks/useGroupId";
 import { Stats } from "src/models/client/questions/types";
-import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
-import Lottie from "react-lottie";
 import * as animationData from "../../../../public/static/animations/curious.json";
+import * as animationData2 from "../../../../public/static/animations/smiling-horse.json";
+import GetInTouchCard from "../GetInTouchCard";
+import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
 
 export type HeaderProps = {
   showPoints: boolean;
@@ -30,14 +30,11 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
 
   const [color, setColor] = useState("white");
 
-  const showMenu = false;
   const showSettings = false;
 
   const [modalContent, setModalContent] = React.useState<
-    "settings" | "leaderboard" | "How to Quidle" | "gdpr ❤️" | undefined
+    "settings" | "contact" | "How to Quidle" | "gdpr ❤️" | undefined
   >(undefined);
-
-  const groupId = useGroupId();
 
   useEffect(() => {
     if (stats.lastPoints < stats.points) setColor("#00ff00");
@@ -59,14 +56,6 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
       px="2vw"
     >
       <Row alignItems="center">
-        {/*<FiMenu
-          size={26}
-          color="white"
-          style={{
-            marginRight: "1vw",
-          }}
-          onClick={() => setModalContent("gdpr ❤️")}
-        />*/}
         {!showPoints && (
           <AiOutlineQuestionCircle
             size={24}
@@ -99,47 +88,18 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
                   start={stats.lastPoints}
                 />
               </div>
-              {/*<div
-                style={{
-                  height: 12,
-                  color:
-                    stats.lastPoints < stats.points
-                      ? "#00ff00"
-                      : stats.lastPoints > stats.points
-                      ? "#ff0033"
-                      : "white",
-                  fontSize: 10,
-                }}
-              >
-                {stats.lastPoints < stats.points
-                  ? `+ ${stats.points - stats.lastPoints}`
-                  : stats.lastPoints > stats.points
-                  ? `- ${stats.lastPoints - stats.points}`
-                  : ""}
-                </div>*/}
             </div>
           ) : (
             APP_NAME
           )}
         </TextBase>
       </Column>
-      <Row alignItems="center" width={24}>
-        {!showPoints && false && (
-          <MdOutlineLeaderboard
+      <Row alignItems="center">
+        {!showPoints && (
+          <MdSupportAgent
             size={24}
             color="white"
-            onClick={() => setModalContent("leaderboard")}
-            style={{
-              marginRight: "1vw",
-            }}
-          />
-        )}
-
-        {showSettings && (
-          <IoMdSettings
-            size={24}
-            color="white"
-            onClick={() => setModalContent("settings")}
+            onClick={() => setModalContent("contact")}
           />
         )}
       </Row>
@@ -148,26 +108,16 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
         onClose={() => setModalContent(undefined)}
         title={modalContent}
       >
-        <div
-          style={{
-            marginTop: 20,
-          }}
-        >
-          <Lottie
-            options={{
-              loop: true,
-              autoplay: true,
-              animationData: animationData,
-            }}
-            height={100}
-          />
-        </div>
-        <Column fullWidth center mt="20px" mb="20px">
-          <H4 bold>How to Quidle</H4>
-        </Column>
-        {modalContent === "settings" && (
+        {modalContent === "contact" && (
           <>
-            <Column mt="20px" mb="20px">
+            <Column>
+              <GetInTouchCard
+                onComplete={() => {
+                  setModalContent(undefined);
+                }}
+              />
+            </Column>
+            {/*<Column mt="20px" mb="20px">
               <TextBase fontSize={12}>
                 Feel free to practice. Practice is good. Good is great. You are
                 great.
@@ -177,12 +127,29 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
               <Button onClick={onPressPracticeTrivia} style={{}}>
                 Practice quiz
               </Button>
-            </Column>
+        </Column>*/}
           </>
         )}
 
         {modalContent === "How to Quidle" && (
           <Column>
+            <div
+              style={{
+                marginTop: 20,
+              }}
+            >
+              <Lottie
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: animationData,
+                }}
+                height={100}
+              />
+            </div>
+            <Column fullWidth center mt="20px" mb="20px">
+              <H4 bold>How to Quidle</H4>
+            </Column>
             <HowToPlayCard moreExplanation name="" />
           </Column>
         )}
