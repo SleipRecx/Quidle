@@ -48,7 +48,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;400;700&display=swap"
             rel="stylesheet"
           />
-          <title>Quidle</title>
+          <title>Quidle - A new quiz every day</title>
         </Head>
         <body>
           <Main />
