@@ -14,14 +14,14 @@ const HowToPlayCard = ({
   return (
     <Column fullWidth width="100%" px="6vw">
       {!moreExplanation && (
-        <Column center mb="5vh">
+        <Column center mb="5vh" data-aos="fade-up">
           <H4 textAlign="center" color="#898989">
             Hi 👋
           </H4>
         </Column>
       )}
 
-      <Row mb="10px">
+      <Row mb="10px" data-aos="fade-up">
         <Column width={"40px"} alignItems="center">
           <P textAlign="center">🏆</P>
         </Column>
@@ -29,7 +29,7 @@ const HowToPlayCard = ({
           <P>15 quiz questions in 60 seconds</P>
         </Column>
       </Row>
-      <Row mb="10px">
+      <Row mb="10px" data-aos="fade-up">
         <Column width={"40px"} alignItems="center">
           <P textAlign="center">🧑‍🏫</P>
         </Column>
@@ -39,7 +39,7 @@ const HowToPlayCard = ({
       </Row>
 
       {moreExplanation && (
-        <Row mb="10px">
+        <Row mb="10px" data-aos="fade-up">
           <Column width={40} alignItems="center">
             <P textAlign="center">🏆</P>
           </Column>
@@ -53,7 +53,7 @@ const HowToPlayCard = ({
       )}
 
       {moreExplanation && (
-        <Row mb="10px">
+        <Row mb="10px" data-aos="fade-up">
           <Column width={40} alignItems="center">
             <P textAlign="center">🧘</P>
           </Column>
@@ -65,7 +65,7 @@ const HowToPlayCard = ({
           </Column>
         </Row>
       )}
-      <Row mb="5vh">
+      <Row mb="5vh" data-aos="fade-up">
         <Column width={40} alignItems="center">
           <P textAlign="center">☀️</P>
         </Column>
@@ -84,7 +84,7 @@ const HowToPlayCard = ({
         </Column>
       </Row>
       {!!setName && (
-        <Column center mb="10px">
+        <Column center mb="10px" data-aos="fade-up">
           <Input
             onChangeText={(text) => setName(text)}
             value={name}
@@ -93,7 +93,7 @@ const HowToPlayCard = ({
         </Column>
       )}
       {!!onPressPlay && (
-        <Column center fullWidth>
+        <Column center fullWidth data-aos="fade-up">
           <Button onClick={onPressPlay} style={{}}>
             PLAY
           </Button>
