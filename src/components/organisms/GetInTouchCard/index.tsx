@@ -37,18 +37,18 @@ const GetInTouchCard = ({ onComplete }: GetInTouchCardProps) => {
 
   return (
     <Column>
-      <Column fullWidth center mt="20px" mb="20px" data-aos="fade-up">
+      <Column fullWidth center mt="20px" mb="20px">
         <H4 bold>Help us improve!</H4>
       </Column>
       <Column center mb="10px">
-        <Column mb="10px" fullWidth data-aos="fade-up">
+        <Column mb="10px" fullWidth>
           <Input
             onChangeText={(text) => setFeedback(text)}
             value={feedback}
             placeholder="Your feedback"
           />
         </Column>
-        <Column mb="10px" fullWidth data-aos="fade-up">
+        <Column mb="10px" fullWidth>
           <Input
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -56,7 +56,7 @@ const GetInTouchCard = ({ onComplete }: GetInTouchCardProps) => {
           />
         </Column>
       </Column>
-      <Column center fullWidth data-aos="fade-up">
+      <Column center fullWidth>
         <Button onClick={onPress} loading={loading}>
           SEND FEEDBACK
         </Button>
