@@ -164,7 +164,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           <CopyToClipboard
             text={`https://${DOMAIN}`}
             onCopy={() =>
-              toast.success("www.quidle.today is copied to your clipboard", {
+              toast.success("www.quidle.app is copied to your clipboard", {
                 position: "bottom-center",
               })
             }
