@@ -27,6 +27,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     wrongAnswerCount: 0,
     points: 0,
     lastPoints: 0,
+    questionHistory: [],
   });
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
@@ -40,6 +41,14 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       questionsCount: stats.questionsCount + 1,
       points: 1000 + stats.points,
       lastPoints: stats.points,
+      questionHistory: stats.questionHistory.concat({
+        allAnswers: question.allAnswers,
+        emoji: "🟩",
+        answer: answer,
+        correctAnswer: question.correctAnswer,
+        isCorrect: true,
+        question: question.question,
+      }),
     });
   };
 
@@ -50,6 +59,14 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       questionsCount: stats.questionsCount + 1,
       points: stats.points - 500,
       lastPoints: stats.points,
+      questionHistory: stats.questionHistory.concat({
+        allAnswers: question.allAnswers,
+        emoji: "🟥",
+        answer: answer,
+        correctAnswer: question.correctAnswer,
+        question: question.question,
+        isCorrect: false,
+      }),
     });
   };
 
@@ -61,6 +78,14 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         questionsCount: stats.questionsCount + 1,
         points: stats.points,
         lastPoints: stats.points,
+        questionHistory: stats.questionHistory.concat({
+          allAnswers: question.allAnswers,
+          emoji: "🟨",
+          answer: "skip",
+          correctAnswer: question.correctAnswer,
+          isCorrect: false,
+          question: question.question,
+        }),
       });
       if (currentQuestionIndex === 14) setIsFinished(true);
       else {
@@ -116,6 +141,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
         stats: stats,
         points: stats.points,
         name: name,
+        questionHistory: stats.questionHistory,
       });
     }
   }, [stats, name]);

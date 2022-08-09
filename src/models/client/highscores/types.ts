@@ -1,4 +1,4 @@
-import { Stats } from "../questions/types";
+import { QuestionHistory, Stats } from "../questions/types";
 
 export interface Highscore {
   createdAt: number;
@@ -7,4 +7,5 @@ export interface Highscore {
   groupId?: string;
   points: number;
   name?: string;
+  questionHistory: QuestionHistory;
 }

@@ -31,6 +31,7 @@
     "react-loading": "^2.0.3",
     "react-lottie": "^1.2.3",
     "react-modal": "^3.14.4",
+    "react-share": "^4.4.0",
     "styled-components": "^5.3.5",
     "styled-system": "^5.1.5"
   },
