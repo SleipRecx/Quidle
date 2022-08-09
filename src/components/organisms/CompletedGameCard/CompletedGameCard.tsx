@@ -108,7 +108,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
             text={`Quidle ${getTodaysDateDDMM()} ${stats.correctAnswerCount}/${
               stats.questionsCount
             }\n${stats.questionHistory
-              .map((q) => q.emoji)
+              ?.map((q) => q.emoji)
               .join("")
               .replace(" ", "")}`}
             onCopy={onCopy}
@@ -150,7 +150,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               one!
             </P>
           )}
-          {stats.questionHistory.map((question, index) => {
+          {stats.questionHistory?.map((question, index) => {
             return (
               <Row key={index} mb="5px">
                 <Column flex={3}>
@@ -250,7 +250,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
                 Game
               </Column>
             </Row>
-            {highscores.map((highscore, index) => {
+            {highscores?.map((highscore, index) => {
               return (
                 <Row
                   fullWidth

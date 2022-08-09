@@ -125,7 +125,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
       });
       return;
     }
-    if (window) window.scrollTo(0, 0);
+    if (!!window) window.scrollTo(0, 0);
     localStorage.setItem("name", name);
     setIsStarted(true);
   };
