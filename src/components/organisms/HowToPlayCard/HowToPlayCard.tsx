@@ -16,7 +16,7 @@ const HowToPlayCard = ({
       {!moreExplanation && (
         <Column center mb="5vh">
           <H4 textAlign="center" color="#898989">
-            Hi 👋
+            How to play Quidle
           </H4>
         </Column>
       )}

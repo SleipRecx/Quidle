@@ -75,6 +75,10 @@ export const Float = styled(BaseLayout)`
   position: absolute;
 `;
 
+export const Sticky = styled(BaseLayout)`
+  position: sticky;
+`;
+
 export const DefaultWrapper = styled(BaseLayout)`
   display: flex;
   flex-direction: column;

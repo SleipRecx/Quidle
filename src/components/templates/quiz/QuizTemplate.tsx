@@ -1,5 +1,10 @@
 import React from "react";
-import { Column, Float, LoadingColumn } from "src/components/atoms/layout";
+import {
+  Column,
+  Float,
+  LoadingColumn,
+  Sticky,
+} from "src/components/atoms/layout";
 import { H1 } from "src/components/atoms/typography";
 import CountDown from "src/components/molecules/CountDown/CountDown";
 import CompletedGameCard from "src/components/organisms/CompletedGameCard/CompletedGameCard";
@@ -31,15 +36,12 @@ const QuizTemplate = ({
       color="white"
       loading={loading}
     >
-      <Header showPoints={isStarted && !isFinished} stats={stats} />
+      <Sticky fullWidth>
+        <Header showPoints={isStarted && !isFinished} stats={stats} />
+      </Sticky>
 
       {!isStarted && !isFinished && (
-        <Column
-          width="100vw"
-          height="100%"
-          alignItems="center"
-          marginTop="10vh"
-        >
+        <Column width="100vw" height="100%" alignItems="center" mt="15vh">
           <Column>
             <HowToPlayCard
               onPressPlay={onPressPlay}
