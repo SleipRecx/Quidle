@@ -3,7 +3,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import toast from "react-hot-toast";
-import Lottie from "react-lottie";
 import SimpleButton from "src/components/atoms/buttons/SimpleButton";
 import { Column, Row } from "src/components/atoms/layout";
 import { H1, H2, P, TextBase } from "src/components/atoms/typography";
@@ -12,17 +11,13 @@ import CountUp from "src/components/molecules/CountUp/CountUp";
 import { Highscore } from "src/models/client/highscores/types";
 import { _firebaseService } from "src/services/firebaseService";
 import { getTodaysDate, getTodaysDateDDMM } from "src/utils/time";
-import * as sad from "../../../../public/static/animations/drenched-horse.json";
-import * as relax from "../../../../public/static/animations/relax.json";
-import * as happy from "../../../../public/static/animations/singing-horse.json";
-import * as smiling from "../../../../public/static/animations/smiling-horse.json";
 import { CompletedGameCardProps } from "./types";
 
 const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
   const [maxHeight, setMaxHeight] = useState(0);
   const localStorageName = localStorage.getItem("name");
 
-  const [showStats, setShowStats] = useState(true);
+  const [showStats, setShowStats] = useState(false);
 
   const [highscores, setHighscores] = useState<Highscore[]>([]);
 
@@ -99,31 +94,12 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
             width: "100%",
           }}
         >
-          <div>
-            <Lottie
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData:
-                  stats.points > 10000
-                    ? smiling
-                    : stats.points > 4000
-                    ? happy
-                    : stats.points > 0
-                    ? relax
-                    : stats.points === 0
-                    ? relax
-                    : sad,
-              }}
-              height={100}
-            />
-          </div>
           <H1 my="3px" textAlign="center" marginTop="5px">
             You got <CountUp end={stats.points} duration={1.5} /> points
           </H1>
         </div>
       </div>
-      <Row justifyContent="center" mt="5px">
+      <Row justifyContent="center" mt="20px">
         <Column width={120} mr="5px">
           <SimpleButton onClick={toggleStats}>Toggle stats</SimpleButton>
         </Column>
@@ -168,6 +144,12 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
               </TextBase>
             </Column>
           </Row>
+          {!stats.questionHistory && (
+            <P>
+              The highscore board is updated - tomorrow you will get the newest
+              one!
+            </P>
+          )}
           {stats.questionHistory.map((question, index) => {
             return (
               <Row key={index} mb="5px">
@@ -208,11 +190,16 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           backgroundColor: "#3a3a3c",
         }}
       ></div>
-
-      <P textAlign="center">Next Quidle</P>
-      <H2 textAlign="center">
-        <Countdown date={tomorrow} renderer={dateRenderer} />
-      </H2>
+      <Row alignItems="center" justifyContent="center">
+        <Column justifyContent="flex-end" ml="10px">
+          <Column>
+            <P textAlign="center">Next Quidle</P>
+            <H2 textAlign="center">
+              <Countdown date={tomorrow} renderer={dateRenderer} />
+            </H2>
+          </Column>
+        </Column>
+      </Row>
 
       <div
         style={{
