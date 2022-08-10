@@ -110,7 +110,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
             }\n${stats.questionHistory
               ?.map((q) => q.emoji)
               .join("")
-              .replace(" ", "")}`}
+              .replace(" ", "")}\nwww.quidle.app`}
             onCopy={onCopy}
           >
             <SimpleButton
