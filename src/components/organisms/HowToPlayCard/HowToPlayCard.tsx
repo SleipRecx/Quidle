@@ -26,7 +26,7 @@ const HowToPlayCard = ({
           <P textAlign="center">🏆</P>
         </Column>
         <Column flex={1}>
-          <P>15 quiz questions in 60 seconds</P>
+          <P>15 quiz questions in 90 seconds</P>
         </Column>
       </Row>
       <Row mb="10px">

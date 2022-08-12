@@ -71,7 +71,13 @@ const QuizTemplate = ({
 
       {!isFinished && question && isStarted && (
         <Wrapper>
-          <Column center px={"5vw"} height={"35vh"}>
+          <Column
+            center
+            px={"5px"}
+            minHeight={"25vh"}
+            marginTop={50}
+            marginBottom={20}
+          >
             <H1 textAlign="center">{question.question}</H1>
           </Column>
         </Wrapper>

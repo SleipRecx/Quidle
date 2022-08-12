@@ -9,7 +9,7 @@ import { HomePageProps } from "./types";
 
 const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
   const [isFinished, setIsFinished] = useState(false);
-  const [isStarted, setIsStarted] = useState(true);
+  const [isStarted, setIsStarted] = useState(false);
   const [unableToPressAnswer, setUnableToPressAnswer] = useState(false);
 
   useEffect(() => {
@@ -23,10 +23,14 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
 
   useEffect(() => {
     const firstTime = localStorage.getItem("isFirstTime");
-    if (!!firstTime) {
-      toast("Remember to share Quidle with your friends", {
-        icon: "🎉",
-      });
+    if (!firstTime) {
+      toast(
+        "Remember to share Quidle with your friends to make it better for everyone",
+        {
+          icon: "🎉",
+          position: "bottom-center",
+        }
+      );
       localStorage.setItem("isFirstTime", "no");
     }
   }, []);

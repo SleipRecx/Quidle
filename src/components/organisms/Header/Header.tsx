@@ -67,27 +67,43 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
       <Column>
         <TextBase bold fontSize={30}>
           {showPoints ? (
-            <div
-              style={{
-                color: "white",
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
+            <div>
               <div
                 style={{
-                  fontSize: 30,
-                  color: color,
+                  color: "white",
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
                 }}
               >
-                <CountUp
-                  end={stats.points}
-                  duration={0.6}
-                  start={stats.lastPoints}
-                />
+                <div
+                  style={{
+                    fontSize: 30,
+                    color: color,
+                  }}
+                >
+                  {/*<CountUp
+                    end={stats.points}
+                    duration={0.6}
+                    start={stats.lastPoints}
+                  />*/}
+                </div>
               </div>
+              <Column
+                center
+                style={{
+                  height: 40,
+
+                  fontSize: 8,
+                }}
+              >
+                {stats.questionHistory
+                  ?.map((q) =>
+                    q.isCorrect ? "🟩" : q.answer === "skip" ? "🟨" : "🟥"
+                  )
+                  .join("")}
+              </Column>
             </div>
           ) : (
             APP_NAME
