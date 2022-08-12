@@ -23,7 +23,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
 
   useEffect(() => {
     const firstTime = localStorage.getItem("isFirstTime");
-    if (!firstTime || (firstTime && firstTime.length === 0)) {
+    if (!firstTime || (!!firstTime && firstTime.length === 0)) {
       toast(
         "Remember to share Quidle with your friends to make it better for everyone",
         {
