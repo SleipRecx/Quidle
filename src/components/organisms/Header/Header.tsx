@@ -1,19 +1,14 @@
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
-import CountUp from "react-countup";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { IoMdSettings } from "react-icons/io";
-import { MdSupportAgent } from "react-icons/md";
+import { VscFeedback } from "react-icons/vsc";
 import Lottie from "react-lottie";
-import Button from "src/components/atoms/buttons/Button";
 import { Column, Row } from "src/components/atoms/layout";
 import Modal from "src/components/atoms/modals/Modal";
 import { H4, TextBase } from "src/components/atoms/typography";
 import { APP_NAME } from "src/constants/app";
-import useGroupId from "src/hooks/useGroupId";
 import { Stats } from "src/models/client/questions/types";
 import * as animationData from "../../../../public/static/animations/curious.json";
-import * as animationData2 from "../../../../public/static/animations/smiling-horse.json";
 import GetInTouchCard from "../GetInTouchCard";
 import HowToPlayCard from "../HowToPlayCard/HowToPlayCard";
 
@@ -112,7 +107,7 @@ const Header = ({ showPoints, stats }: HeaderProps) => {
       </Column>
       <Row alignItems="center">
         {!showPoints && (
-          <MdSupportAgent
+          <VscFeedback
             size={24}
             color="white"
             onClick={() => setModalContent("contact")}

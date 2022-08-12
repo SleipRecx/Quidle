@@ -21,6 +21,20 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
 
   const [highscores, setHighscores] = useState<Highscore[]>([]);
 
+  useEffect(() => {
+    const firstTime = localStorage.getItem("isFirstTime");
+    if (!firstTime) {
+      toast(
+        "Remember to share Quidle with your friends to make it better for everyone",
+        {
+          icon: "🎉",
+          position: "bottom-center",
+        }
+      );
+      localStorage.setItem("isFirstTime", "no");
+    }
+  }, []);
+
   const fetchOverallHighscores = async () => {
     try {
       const mHighscores = await _firebaseService.getQueriedCollection<Highscore>(

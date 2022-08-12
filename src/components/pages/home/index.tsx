@@ -21,20 +21,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     new Date().getTime()
   );
 
-  useEffect(() => {
-    const firstTime = localStorage.getItem("isFirstTime");
-    if (!firstTime) {
-      toast(
-        "Remember to share Quidle with your friends to make it better for everyone",
-        {
-          icon: "🎉",
-          position: "bottom-center",
-        }
-      );
-      localStorage.setItem("isFirstTime", "no");
-    }
-  }, []);
-
   const [stats, setStats] = useState<Stats>({
     correctAnswerCount: 0,
     questionsCount: 0,
