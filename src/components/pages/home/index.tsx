@@ -70,6 +70,9 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     });
   };
 
+  console.log("currentnQ", currentQuestionIndex);
+  console.log("questions", questions);
+
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
     if (unableToPressAnswer) return;
     if (answer === "skip") {
@@ -87,11 +90,9 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
           question: question.question,
         }),
       });
-      if (currentQuestionIndex === 14) setIsFinished(true);
-      else {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setLastQuestionAnsweredTime(new Date().getTime());
-      }
+      if (currentQuestionIndex === questions.length - 1) setIsFinished(true);
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setLastQuestionAnsweredTime(new Date().getTime());
     } else {
       setUnableToPressAnswer(true);
       if (question.correctAnswer === answer)
@@ -100,7 +101,7 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
 
       setTimeout(() => {
         setUnableToPressAnswer(false);
-        if (currentQuestionIndex === 14) setIsFinished(true);
+        if (currentQuestionIndex === questions.length - 1) setIsFinished(true);
 
         setLastQuestionAnsweredTime(new Date().getTime());
         setCurrentQuestionIndex(currentQuestionIndex + 1);
