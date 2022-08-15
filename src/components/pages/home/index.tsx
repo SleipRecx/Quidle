@@ -70,9 +70,6 @@ const HomePage = ({ questions, loading, localStorageStats }: HomePageProps) => {
     });
   };
 
-  console.log("currentnQ", currentQuestionIndex);
-  console.log("questions", questions);
-
   const onPressAnswer = (question: TriviaQuestion, answer: string) => {
     if (unableToPressAnswer) return;
     if (answer === "skip") {
