@@ -6,6 +6,7 @@ export interface Highscore {
   date: string;
   groupId?: string;
   points: number;
+  extra?: string;
   name?: string;
   questionHistory: QuestionHistory;
 }

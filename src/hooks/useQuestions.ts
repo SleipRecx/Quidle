@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import TriviaAPI from "src/api/trivia";
+import { Highscore } from "src/models/client/highscores/types";
 import { Stats, TriviaQuestion } from "src/models/client/questions/types";
 import { _firebaseService } from "src/services/firebaseService";
+import { getHighscores } from "src/utils/highscore";
 import { getTodaysDate } from "src/utils/time";
 
 export interface DailyQuiz {
@@ -66,6 +68,12 @@ const useQuestions = () => {
           questions: questions,
           createdAt: new Date().getTime(),
         });
+
+        const highscores = getHighscores(questions);
+        highscores.forEach((highscore) => {
+          _firebaseService.add<Highscore>("highscores", highscore);
+        });
+
         setTodaysQuestions(questions);
 
         return questions;
