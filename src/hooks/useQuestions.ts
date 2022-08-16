@@ -69,10 +69,10 @@ const useQuestions = () => {
           createdAt: new Date().getTime(),
         });
 
-        const highscores = getHighscores(questions);
-        highscores.forEach((highscore) => {
+        // const highscores = getHighscores(questions);
+        /*highscores.forEach((highscore) => {
           _firebaseService.add<Highscore>("highscores", highscore);
-        });
+        });*/
 
         setTodaysQuestions(questions);
 
