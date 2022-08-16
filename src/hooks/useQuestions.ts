@@ -20,6 +20,7 @@ const useQuestions = () => {
 
   const fetchTodaysQuestion = async () => {
     try {
+      console.log("gretting question");
       const hasStartedTodaysQuiz = localStorage.getItem(
         `quiz-results-${getTodaysDate()}`
       );
@@ -31,10 +32,12 @@ const useQuestions = () => {
         `dailyQuiz/${getTodaysDate()}`
       );
       if (doc) {
+        console.log("we have doc", doc);
         setTodaysQuestions(doc.questions);
 
         return doc;
       } else {
+        console.log("getting questions");
         let easyQuestions: TriviaQuestion[] = [];
         let mediumQuestions: TriviaQuestion[] = [];
         let hardQuestions: TriviaQuestion[] = [];
@@ -79,6 +82,7 @@ const useQuestions = () => {
         return questions;
       }
     } catch (error) {
+      console.log("error", error);
       toast.error("Error retrieving questions", error);
     } finally {
       setLoading(false);
