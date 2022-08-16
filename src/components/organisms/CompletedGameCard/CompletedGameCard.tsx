@@ -121,7 +121,7 @@ const CompletedGameCard = ({ stats }: CompletedGameCardProps) => {
           <CopyToClipboard
             text={`Quidle ${getTodaysDateDDMM()} ${stats.correctAnswerCount}/${
               stats.questionsCount
-            }\n${stats.questionHistory
+            } Score: ${stats.score}\n${stats.questionHistory
               ?.map((q) => q.emoji)
               .join("")
               .replace(" ", "")}\nwww.quidle.app`}
